@@ -2,17 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Core\Database;
+use App\Controllers\HomeController;
 
-try {
-
-    $database = Database::getInstance();
-    $connection = $database->getConnection();
-
-    echo "✅ EduTech conectado correctamente a MySQL";
-
-} catch (Exception $e) {
-
-    echo "❌ Error: " . $e->getMessage();
-
-}
+$controller = new HomeController();
+$controller->index();
