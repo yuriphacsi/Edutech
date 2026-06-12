@@ -1,11 +1,13 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Models\Rol;
+use App\Core\Router;
 
-$rol = new Rol();
+$router = new Router();
 
-echo "<pre>";
-print_r($rol->all());
-echo "</pre>";
+require_once __DIR__ . '/config/routes.php';
+
+$router->dispatch();
