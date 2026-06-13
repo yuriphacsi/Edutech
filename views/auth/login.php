@@ -79,7 +79,7 @@
         <div class="error"><?= $error ?></div>
     <?php endif; ?>
 
-    <form method="POST" action="/Edutech/login">
+    <form action="/Edutech/login" method="POST">
 
         <input type="email" name="correo" placeholder="Correo" required>
 

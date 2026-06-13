@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function index()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $usuario = new \App\Models\Usuario();
 

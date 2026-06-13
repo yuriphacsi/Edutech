@@ -20,4 +20,14 @@ $router->post('/usuarios/update', 'UsuarioController@update');
 $router->get('/usuarios/delete', 'UsuarioController@delete');
 $router->get('/usuarios/toggle', 'UsuarioController@toggle');
 
+$router->get('/cursos', 'CursoController@index');
+
+$router->get('/cursos/create', 'CursoController@create');
+$router->post('/cursos/store', 'CursoController@store');
+
+$router->get('/cursos/edit', 'CursoController@edit');
+$router->post('/cursos/update', 'CursoController@update');
+
+$router->post('/cursos/delete', 'CursoController@delete');
+
 $router->get('/test', 'TestController@index');

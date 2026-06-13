@@ -1,21 +1,19 @@
 <?php $rol = $_SESSION['user']['rol'] ?? null; ?>
 
-<ul>
+<div class="nav-buttons">
 
-    
-    <?php if ($rol === 'admin'): ?>
-        <li><a href="/Edutech/usuarios">Usuarios</a></li>
-        <li><a href="/Edutech/cursos">Cursos</a></li>
-        <li><a href="/Edutech/reservas">Reservas</a></li>
+    <?php if ($rol == 1): ?>
+        <a class="btn-nav" href="/Edutech/usuarios">Usuarios</a>
+        <a class="btn-nav" href="/Edutech/cursos">Cursos</a>
+        <a class="btn-nav" href="/Edutech/reservas">Reservas</a>
     <?php endif; ?>
 
-    <?php if ($rol === 'asesor'): ?>
-        <li><a href="/Edutech/cursos">Mis Cursos</a></li>
+    <?php if ($rol == 2): ?>
+        <a class="btn-nav" href="/Edutech/cursos">Mis Cursos</a>
     <?php endif; ?>
 
-    <?php if ($rol === 'alumno'): ?>
-        <li><a href="/Edutech/mis-cursos">Mis Cursos</a></li>
+    <?php if ($rol == 3): ?>
+        <a class="btn-nav" href="/Edutech/mis-cursos">Mis Cursos</a>
     <?php endif; ?>
 
-
-</ul>
+</div> 

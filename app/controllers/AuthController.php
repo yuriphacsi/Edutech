@@ -16,26 +16,22 @@ class AuthController extends Controller
 
             $rol = $_SESSION['user']['rol'];
 
-            switch ($rol) {
-                case 1:
-                    header("Location: /Edutech/admin");
-                    break;
-
-                case 2:
-                    header("Location: /Edutech/asesor");
-                    break;
-
-                case 3:
-                    header("Location: /Edutech/alumno");
-                    break;
-
-                default:
-                    die("Rol no válido");
+            if ($rol == 1) {
+                header("Location: /Edutech/admin");
+                exit;
             }
 
-            exit;
+            if ($rol == 2) {
+                header("Location: /Edutech/asesor");
+                exit;
+            }
+
+            if ($rol == 3) {
+                header("Location: /Edutech/alumno");
+                exit;
+            }
         }
-                    
+
         $this->view('auth/login', [], 'layouts/auth');
     }
 
@@ -53,36 +49,32 @@ class AuthController extends Controller
             die("Usuario no existe");
         }
 
-        if ($password !== $user['password']) {
+        if (!password_verify($password, $user['password'])) {
             die("Contraseña incorrecta");
         }
 
-        // 🔥 SISTEMA LIMPIO
         Session::set('user', [
             'id' => $user['id_usuario'],
-            'rol' => $user['id_rol']
+            'rol' => (int)$user['id_rol']
         ]);
 
-        $rol = (int) $user['id_rol']; // 👈 fuerza entero
-
-        switch ($rol) {
+        switch ((int)$user['id_rol']) {
             case 1:
-                $redirect = "/Edutech/admin";
+                header("Location: /Edutech/admin");
                 break;
 
             case 2:
-                $redirect = "/Edutech/asesor";
+                header("Location: /Edutech/asesor");
                 break;
 
             case 3:
-                $redirect = "/Edutech/alumno";
+                header("Location: /Edutech/alumno");
                 break;
 
             default:
-                die("Rol no válido: " . $rol);
+                die("Rol no válido");
         }
-        
-        header("Location: $redirect");
+
         exit;
     }
 

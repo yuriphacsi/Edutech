@@ -4,12 +4,20 @@ namespace App\Core;
 
 class Router
 {
+    private array $routes = [];
+    
     private array $middlewares = [];
     private string $lastRoute;
     private string $lastMethod;
 
     public function get($route, $action)
     {
+        $route = '/' . trim($route, '/');
+
+        if ($route === '//') {
+            $route = '/';
+        }
+
         $this->routes['GET'][$route] = [
             'action' => $action,
             'middleware' => null
@@ -20,6 +28,8 @@ class Router
 
     public function post(string $uri, string $action): self
     {
+        $uri = rtrim($uri, '/');
+
         $this->routes['POST'][$uri] = [
             'action' => $action,
             'middleware' => null
@@ -34,9 +44,17 @@ class Router
     public function dispatch()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $uri = strtok($_SERVER['REQUEST_URI'], '?');
 
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = str_replace('/Edutech', '', $uri);
+        $uri = rtrim($uri, '/');
+        if ($uri === '') {
+            $uri = '/';
+        }
+
+        if ($uri === '') {
+            $uri = '/';
+        }
 
         $actionData = $this->routes[$method][$uri] ?? null;
 
@@ -109,5 +127,10 @@ class Router
     {
         $this->routes[$this->lastMethod][$this->lastRoute]['middleware'] = $key;
         return $this;
+    }
+
+    public function prueba()
+    {
+        die('Router cargado');
     }
 }
