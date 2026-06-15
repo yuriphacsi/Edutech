@@ -12,15 +12,16 @@ class Router
 
     public function get($route, $action)
     {
-        $route = rtrim($route, '/');
+        $route = '/' . trim($route, '/');
+
+        if ($route === '//') {
+            $route = '/';
+        }
 
         $this->routes['GET'][$route] = [
             'action' => $action,
             'middleware' => null
         ];
-
-        $this->lastRoute = $route;
-        $this->lastMethod = 'GET';
 
         return $this;
     }
