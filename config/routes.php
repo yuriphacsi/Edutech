@@ -31,3 +31,4 @@ $router->post('/cursos/update', 'CursoController@update');
 $router->post('/cursos/delete', 'CursoController@delete');
 
 $router->get('/test', 'TestController@index');
+$router->post('/test', 'TestController@index');

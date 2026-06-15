@@ -5,8 +5,6 @@ namespace App\Core;
 class Router
 {
     private array $routes = [];
-    
-    private array $middlewares = [];
     private string $lastRoute;
     private string $lastMethod;
 
@@ -23,19 +21,26 @@ class Router
             'middleware' => null
         ];
 
+        $this->lastRoute = $route;
+        $this->lastMethod = 'GET';
+
         return $this;
     }
 
-    public function post(string $uri, string $action): self
+    public function post(string $route, string $action): self
     {
-        $uri = rtrim($uri, '/');
+        $route = '/' . trim($route, '/');
 
-        $this->routes['POST'][$uri] = [
+        if ($route === '//') {
+            $route = '/';
+        }
+
+        $this->routes['POST'][$route] = [
             'action' => $action,
             'middleware' => null
         ];
 
-        $this->lastRoute = $uri;
+        $this->lastRoute = $route;
         $this->lastMethod = 'POST';
 
         return $this;
@@ -47,12 +52,10 @@ class Router
 
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $uri = str_replace('/Edutech', '', $uri);
-        $uri = rtrim($uri, '/');
-        if ($uri === '') {
-            $uri = '/';
-        }
 
-        if ($uri === '') {
+        $uri = '/' . trim($uri, '/');
+
+        if ($uri === '//') {
             $uri = '/';
         }
 
@@ -67,7 +70,7 @@ class Router
         if ($middleware) {
 
             if ($middleware === 'auth') {
-                \App\Core\AuthMiddleware::check();
+                \App\Middleware\AuthMiddleware::check();
             }
 
             if (str_starts_with($middleware, 'role:')) {
