@@ -6,7 +6,7 @@ class Middleware
 {
     public static function auth()
     {
-        if (!isset(Session::get('user'))) {
+        if (!isset($_SESSION['user'])) {
             header("Location: /Edutech/login");
             exit;
         }
@@ -14,16 +14,16 @@ class Middleware
 
     public static function role($role)
     {
-        if (!isset(Session::get('user'))) {
+        if (!isset($_SESSION['user'])) {
             header("Location: /Edutech/login");
             exit;
         }
 
-        if (!isset(Session::get('user')['rol'])) {
+        if (!isset($_SESSION['user']['rol'])) {
             die("Rol no definido");
         }
 
-        if (Session::get('user')['rol'] !== $role) {
+        if ($_SESSION['user']['rol'] !== $role) {
             die("Acceso denegado");
         }
     }
