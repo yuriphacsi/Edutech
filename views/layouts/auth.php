@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Login - EduTech</title>
 
-    <link rel="icon" type="image/png" href="/Edutech/public/img/logo.png?v=2">
+    <link rel="stylesheet" href="/Edutech/public/css/app.css">
+</head>
+<body class="auth-body">
 
-    <title>Login</title>
-</head> 
-<body>
-
-<div style="display:flex; justify-content:center; align-items:center; height:100vh;">
     <?= $content ?>
-</div>
 
 </body>
 </html>

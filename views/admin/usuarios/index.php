@@ -1,3 +1,9 @@
+<?php
+
+use App\Helpers\Mask;
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -145,8 +151,12 @@ body {
 
             <tr>
                 <td><?= $u['id_usuario'] ?></td>
-                <td><?= $u['nombres'] . ' ' . $u['apellidos'] ?></td>
-                <td><?= $u['correo'] ?></td>
+                <td>
+                    <?= Mask::name($u['nombres']) ?>
+                    <?= Mask::name($u['apellidos']) ?>
+                </td>
+                <td><?= Mask::email($u['correo']) ?></td>
+                
 
                 <td>
                     <?php if ($u['id_rol'] == 1): ?>

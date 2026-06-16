@@ -1,11 +1,15 @@
-/* ===== LAYOUT BASE ===== */
+/* =========================
+   DASHBOARD BASE
+========================= */
+
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background: #0f172a;
+    color: #e2e8f0;
 }
 
-/* ===== SIDEBAR ===== */
+/* SIDEBAR */
 .sidebar {
     width: 240px;
     height: 100vh;
@@ -13,121 +17,13 @@ body {
     left: 0;
     top: 0;
     background: #0b1220;
-    color: white;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
     border-right: 1px solid rgba(255,255,255,0.05);
-}
-
-/* COLLAPSED SIDEBAR */
-.sidebar.collapsed {
-    width: 70px;
-}
-
-/* ===== HEADER LOGO ===== */
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.sidebar-header img {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-}
-
-.logo-text {
-    font-weight: 700;
-    color: #60a5fa;
-    transition: 0.3s;
-}
-
-.sidebar.collapsed .logo-text {
-    display: none;
-}
-
-.sidebar.collapsed .sidebar-header {
-    justify-content: center;
-}
-
-/* ===== MENU ===== */
-.sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px;
 }
 
-.sidebar-menu a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    color: #cbd5e1;
-    text-decoration: none;
-    transition: 0.2s;
-}
-
-.sidebar-menu a:hover {
-    background: rgba(255,255,255,0.08);
-    color: white;
-}
-
-/* TEXTO MENU */
-.menu-text {
-    transition: 0.3s;
-    white-space: nowrap;
-}
-
-/* OCULTAR TEXTO EN COLAPSO */
-.sidebar.collapsed .menu-text {
-    display: none;
-}
-
-/* CENTRAR ICONOS */
-.sidebar.collapsed .sidebar-menu a,
-.sidebar.collapsed .sidebar-footer a {
-    justify-content: center;
-}
-
-/* ===== FOOTER ===== */
-.sidebar-footer {
-    margin-top: auto;
-    padding: 10px;
-}
-
-.sidebar-footer a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    color: #cbd5e1;
-    text-decoration: none;
-    transition: 0.2s;
-}
-
-.logout-btn {
-    color: #ef4444 !important;
-}
-
-.sidebar-footer a:hover {
-    background: rgba(239, 68, 68, 0.1);
-}
-
-/* ===== CONTENIDO ===== */
+/* MAIN */
 .main-content {
     margin-left: 240px;
     padding: 20px;
-    transition: 0.3s;
-}
-
-.main-content.expanded {
-    margin-left: 70px;
 }

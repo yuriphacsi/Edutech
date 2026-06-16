@@ -10,7 +10,7 @@ class AuthMiddleware
     {
         Session::start();
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset(Session::get('user'))) {
             header("Location: /Edutech/login");
             exit;
         }
@@ -20,12 +20,12 @@ class AuthMiddleware
     {
         Session::start();
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset(Session::get('user'))) {
             header("Location: /Edutech/login");
             exit;
         }
 
-        $userRole = (int) $_SESSION['user']['rol'];
+        $userRole = (int) Session::get('user')['rol'];
 
         if (!in_array($userRole, $roles)) {
             die("Acceso denegado");
