@@ -26,7 +26,6 @@ class AuthMiddleware
         }
 
         $userRole = (int) Session::get('user')['rol'];
-
         if (!in_array($userRole, $roles)) {
             die("Acceso denegado");
         }
