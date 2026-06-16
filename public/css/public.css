@@ -115,6 +115,47 @@ body {
     box-shadow: 0 14px 28px rgba(59, 130, 246, 0.35);
 }
 
+/* =========================
+   NAVBAR MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .public-nav {
+        padding: 12px 15px;
+    }
+
+    .public-logo img {
+        width: 34px;
+    }
+
+    .public-logo span {
+        font-size: 16px;
+    }
+
+    .public-nav-links {
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .public-nav-links a {
+        font-size: 13px;
+    }
+
+    .public-nav-links .login {
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .public-logo span {
+        display: none;
+    }
+
+}
+
 /* ================= HERO SAAS ================= */
 
 .hero {

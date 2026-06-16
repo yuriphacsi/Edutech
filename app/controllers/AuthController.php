@@ -46,11 +46,25 @@ class AuthController extends Controller
         $user = $usuarioModel->findByEmail($correo);
 
         if (!$user) {
-            die("Usuario no existe");
+
+            $this->view(
+                'auth/login',
+                ['error' => 'Correo o contraseña incorrectos'],
+                'layouts/auth'
+            );
+
+            return;
         }
 
         if (!password_verify($password, $user['password'])) {
-            die("Contraseña incorrecta");
+
+            $this->view(
+                'auth/login',
+                ['error' => 'Correo o contraseña incorrectos'],
+                'layouts/auth'
+            );
+
+            return;
         }
 
         Session::set('user', [

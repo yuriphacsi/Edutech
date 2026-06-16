@@ -1,95 +1,93 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - EduTech</title>
+<div class="auth-container">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    <!-- PANEL IZQUIERDO -->
+    <div class="auth-brand">
 
-        .login-box {
-            background: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            width: 320px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            text-align: center;
-        }
+        <img src="/Edutech/public/img/logo.png" alt="EduTech">
 
-        .login-box h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
+        <h1>EduTech</h1>
 
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-        }
+        <p>
+            Plataforma educativa moderna para la gestión
+            de estudiantes, asesores y cursos.
+        </p>
 
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: #2a5298;
-            border: none;
-            color: #fff;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+    </div>
 
-        .login-box button:hover {
-            background: #1e3c72;
-        }
+    <!-- PANEL DERECHO -->
+    <div class="login-box">
 
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
+        <div class="login-header">
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2a5298;
-        }
-    </style>
-</head>
-<body>
+            <img src="/Edutech/public/img/logo.png" alt="EduTech Logo">
 
-<div class="login-box">
+            <h2>Iniciar Sesión</h2>
 
-    <img src="/Edutech/public/img/logo.png" width="120">
+            <p>Accede a tu plataforma educativa</p>
 
-    <h2>Iniciar Sesión</h2>
+        </div>
 
-    <?php if (!empty($error)): ?>
-        <div class="error"><?= $error ?></div>
-    <?php endif; ?>
+        <?php if (!empty($error)): ?>
+            <div class="error">
+                ⚠ <?= $error ?>
+            </div>
+        <?php endif; ?>
 
-    <form action="/Edutech/login" method="POST">
+        <form
+            action="/Edutech/login"
+            method="POST"
+            class="login-form"
+        >
 
-        <input type="email" name="correo" placeholder="Correo" required>
+            <input
+                type="email"
+                name="correo"
+                placeholder="Correo electrónico"
+                required
+            >
 
-        <input type="password" name="password" placeholder="Contraseña" required>
+            <div class="password-wrapper">
 
-        <button type="submit">Ingresar</button>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    required
+                >
 
-    </form>
+                <span id="togglePassword">
+                    👁️
+                </span>
+
+            </div>
+
+            <button type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+<script>
+const togglePassword = document.getElementById('togglePassword');
+const password = document.getElementById('password');
+
+togglePassword.addEventListener('click', () => {
+
+    const type =
+        password.getAttribute('type') === 'password'
+            ? 'text'
+            : 'password';
+
+    password.setAttribute('type', type);
+
+    togglePassword.textContent =
+        type === 'password'
+            ? '👁️'
+            : '🙈';
+});
+</script>
