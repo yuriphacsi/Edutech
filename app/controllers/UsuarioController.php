@@ -25,7 +25,7 @@ class UsuarioController extends Controller
     public function create()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $this->view('admin/usuarios/create', [], 'layouts/main');
     }
@@ -33,7 +33,7 @@ class UsuarioController extends Controller
     public function store()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $usuario = new \App\Models\Usuario();
 
@@ -53,7 +53,7 @@ class UsuarioController extends Controller
     public function edit()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $id = $_GET['id'];
 
@@ -69,7 +69,7 @@ class UsuarioController extends Controller
     public function update()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $id = $_POST['id_usuario'];
 
@@ -118,7 +118,7 @@ class UsuarioController extends Controller
     public function toggle()
     {
         AuthMiddleware::check();
-        AuthMiddleware::role(1);
+        AuthMiddleware::role([1]);
 
         $id = $_GET['id'];
 

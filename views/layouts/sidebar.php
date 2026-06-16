@@ -1,4 +1,11 @@
-<?php $rol = $_SESSION['user']['rol'] ?? null; ?>
+<?php
+
+use App\Helpers\Session;
+
+$user = Session::get('user');
+$rol = $user['rol'] ?? null;
+
+?>
 
 <div class="nav-buttons">
 
@@ -16,4 +23,4 @@
         <a class="btn-nav" href="/Edutech/mis-cursos">Mis Cursos</a>
     <?php endif; ?>
 
-</div> 
+</div>

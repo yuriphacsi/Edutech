@@ -5,16 +5,16 @@ namespace App\Core;
 class Router
 {
     private array $routes = [];
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     private string $lastRoute;
     private string $lastMethod;
 
     public function get($route, $action)
     {
-        $route = '/' . trim($route, '/');
-
-        if ($route === '//') {
-            $route = '/';
-        }
+        $route = $this->normalize($route);
 
         $this->routes['GET'][$route] = [
             'action' => $action,
@@ -29,12 +29,17 @@ class Router
 
     public function post(string $route, string $action): self
     {
+<<<<<<< Updated upstream
         $route = '/' . trim($route, '/');
 
         if ($route === '//') {
             $route = '/';
         }
 
+=======
+        $route = $this->normalize($route);
+
+>>>>>>> Stashed changes
         $this->routes['POST'][$route] = [
             'action' => $action,
             'middleware' => null
@@ -74,9 +79,7 @@ class Router
             }
 
             if (str_starts_with($middleware, 'role:')) {
-
                 $role = (int) str_replace('role:', '', $middleware);
-
                 \App\Middleware\AuthMiddleware::role([$role]);
             }
         }
@@ -132,8 +135,14 @@ class Router
         return $this;
     }
 
-    public function prueba()
+    private function normalize(string $route): string
     {
-        die('Router cargado');
+        $route = '/' . trim($route, '/');
+
+        if ($route === '//') {
+            return '/';
+        }
+
+        return $route;
     }
 }

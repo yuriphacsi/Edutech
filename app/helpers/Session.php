@@ -4,14 +4,14 @@ namespace App\Helpers;
 
 class Session
 {
-    public static function start(): void
+    public static function start()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public static function set($key, $value): void
+    public static function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
@@ -21,8 +21,14 @@ class Session
         return $_SESSION[$key] ?? null;
     }
 
-    public static function destroy(): void
+    public static function has($key): bool
     {
+        return isset($_SESSION[$key]);
+    }
+
+    public static function destroy()
+    {
+        $_SESSION = [];
         session_destroy();
     }
 }

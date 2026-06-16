@@ -12,9 +12,9 @@ class AuthController extends Controller
     {
         Session::start();
 
-        if (isset($_SESSION['user'])) {
+        if (Session::has('user')) {
 
-            $rol = $_SESSION['user']['rol'];
+            $rol = Session::get('user')['rol'];
 
             if ($rol == 1) {
                 header("Location: /Edutech/admin");
