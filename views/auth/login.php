@@ -27,6 +27,12 @@
 
         </div>
 
+        <?php if (isset($_GET['success'])): ?>
+            <div class="success">
+                ✅ Cuenta creada correctamente. Ahora puedes iniciar sesión.
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($error)): ?>
             <div class="error">
                 ⚠ <?= $error ?>
@@ -62,11 +68,26 @@
 
             </div>
 
-            <button type="submit">
+            <button
+                type="submit"
+                id="loginButton"
+            >
                 Ingresar
             </button>
 
+            <div class="auth-links">
+
+                <a href="/Edutech/register">
+                    ¿No tienes cuenta? Regístrate
+                </a>
+
+            </div>
+
         </form>
+
+        <a href="/Edutech" class="back-home">
+            ← Volver al inicio
+        </a>
 
     </div>
 
@@ -90,4 +111,22 @@ togglePassword.addEventListener('click', () => {
             ? '👁️'
             : '🙈';
 });
+</script>
+<script>
+
+const loginForm =
+    document.querySelector('form');
+
+const loginButton =
+    document.getElementById('loginButton');
+
+loginForm.addEventListener('submit', () => {
+
+    loginButton.disabled = true;
+
+    loginButton.textContent =
+        'Ingresando...';
+
+});
+
 </script>

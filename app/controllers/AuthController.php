@@ -35,6 +35,76 @@ class AuthController extends Controller
         $this->view('auth/login', [], 'layouts/auth');
     }
 
+    public function register()
+    {
+        $this->view(
+            'auth/register',
+            [],
+            'layouts/auth'
+        );
+    }
+
+    public function storeRegister()
+    {
+        $nombres = trim($_POST['nombres'] ?? '');
+        $apellidos = trim($_POST['apellidos'] ?? '');
+        $correo = trim($_POST['correo'] ?? '');
+        if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+
+            $this->view(
+                'auth/register',
+                [
+                    'error' => 'Correo electrónico inválido'
+                ],
+                'layouts/auth'
+            );
+
+            return;
+        }
+        $password = $_POST['password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        $usuarioModel = new Usuario();
+
+        if ($password !== $confirmPassword) {
+
+            $this->view(
+                'auth/register',
+                [
+                    'error' => 'Las contraseñas no coinciden'
+                ],
+                'layouts/auth'
+            );
+
+            return;
+        }
+
+        if ($usuarioModel->findByEmail($correo)) {
+
+            $this->view(
+                'auth/register',
+                [
+                    'error' => 'El correo ya está registrado'
+                ],
+                'layouts/auth'
+            );
+
+            return;
+        }
+
+        $usuarioModel->create([
+            'id_rol' => 3,
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
+            'correo' => $correo,
+            'password' => $password,
+            'estado' => 1
+        ]);
+
+        header("Location: /Edutech/login?success=1");
+        exit;
+    }
+
     public function authenticate()
     {
         Session::start();
@@ -69,7 +139,9 @@ class AuthController extends Controller
 
         Session::set('user', [
             'id' => $user['id_usuario'],
-            'rol' => (int)$user['id_rol']
+            'rol' => (int)$user['id_rol'],
+            'nombres' => $user['nombres'],
+            'apellidos' => $user['apellidos']
         ]);
 
         switch ((int)$user['id_rol']) {

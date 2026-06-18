@@ -2,6 +2,9 @@
 
 $router->get('/', 'HomeController@index');
 
+$router->get('/register', 'AuthController@register');
+$router->post('/register', 'AuthController@storeRegister');
+
 $router->get('/login', 'AuthController@login');
 $router->post('/login', 'AuthController@authenticate');
 $router->get('/logout', 'AuthController@logout');
