@@ -1,0 +1,31 @@
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggleBtn = document.getElementById('toggleBtn');
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('main-content');
+
+    // Restaurar estado guardado
+    const isCollapsed =
+        localStorage.getItem('sidebarCollapsed');
+
+    if (isCollapsed === 'true') {
+
+        sidebar.classList.add('collapsed');
+        content.classList.add('expanded');
+
+    }
+
+    function toggleSidebar() {
+
+        sidebar.classList.toggle('collapsed');
+        content.classList.toggle('expanded');
+
+        localStorage.setItem(
+            'sidebarCollapsed',
+            sidebar.classList.contains('collapsed')
+        );
+    }
+
+    toggleBtn.addEventListener('click', toggleSidebar);
+
+});

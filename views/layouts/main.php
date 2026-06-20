@@ -5,6 +5,7 @@
     <title>EduTech</title>
 
     <link rel="stylesheet" href="/Edutech/public/css/app.css">
+    <link rel="stylesheet" href="/Edutech/public/css/modules/dashboard.css">
     <link rel="stylesheet" href="/Edutech/public/css/modules/usuarios.css">
     <link rel="icon" href="/Edutech/public/img/logo.png">
     <link rel="stylesheet"
@@ -23,39 +24,9 @@
 
     </div>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const toggleBtn = document.getElementById('toggleBtn');
-        const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('main-content');
-
-        // Restaurar estado guardado
-        const isCollapsed =
-            localStorage.getItem('sidebarCollapsed');
-
-        if (isCollapsed === 'true') {
-
-            sidebar.classList.add('collapsed');
-            content.classList.add('expanded');
-
-        }
-
-        function toggleSidebar() {
-
-            sidebar.classList.toggle('collapsed');
-            content.classList.toggle('expanded');
-
-            localStorage.setItem(
-                'sidebarCollapsed',
-                sidebar.classList.contains('collapsed')
-            );
-        }
-
-        toggleBtn.addEventListener('click', toggleSidebar);
-
-    });
-    </script>
-
+    <script src="/Edutech/public/js/sidebar.js"></script>
+    <script src="/Edutech/public/js/notifications.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/Edutech/public/js/dashboard.js"></script>
 </body>
 </html>

@@ -19,6 +19,43 @@ foreach ($breadcrumbs as $route => $trail) {
 }
 
 ?>
+<div class="topbar">
+
+ 
+<div class="topbar-right">
+
+    <div class="notification-wrapper">
+
+        <button id="notificationBtn" class="notification-btn">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span class="notification-count">3</span>
+
+        </button>
+
+        <div id="notificationPanel" class="notification-panel">
+
+            <div class="notification-item">
+                Nuevo usuario registrado
+            </div>
+
+            <div class="notification-item">
+                Curso creado correctamente
+            </div>
+
+            <div class="notification-item">
+                Sistema iniciado
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+ 
+
+</div>
 
 <div class="breadcrumbs">
 

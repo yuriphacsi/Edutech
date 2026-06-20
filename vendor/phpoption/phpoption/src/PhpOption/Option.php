@@ -254,11 +254,11 @@ abstract class Option implements IteratorAggregate
      * This can be used to try multiple alternatives, and is especially useful
      * with lazy evaluating options:
      *
-     * ```php
+     *  php
      *     $repo->findSomething()
      *         ->orElse(new LazyOption(array($repo, 'findSomethingElse')))
      *         ->orElse(new LazyOption(array($repo, 'createSomething')));
-     * ```
+     *  
      *
      * @param Option<T> $else
      *
@@ -273,11 +273,11 @@ abstract class Option implements IteratorAggregate
      *
      * In all cases, the return value of the callable is discarded.
      *
-     * ```php
+     *  php
      *     $comment->getMaybeFile()->ifDefined(function($file) {
      *         // Do something with $file here.
      *     });
-     * ```
+     *  
      *
      * If you're looking for something like ``ifEmpty``, you can use ``getOrCall``
      * and ``getOrElse`` in these cases.
@@ -309,9 +309,9 @@ abstract class Option implements IteratorAggregate
      *
      * If the option is empty, then the callable is not applied.
      *
-     * ```php
+     *  php
      *     (new Some("foo"))->map('strtoupper')->get(); // "FOO"
-     * ```
+     *  
      *
      * @template S
      *
@@ -396,7 +396,7 @@ abstract class Option implements IteratorAggregate
      * If empty, the initial value is returned. If non-empty, the callable
      * receives the initial value and the option's value as arguments.
      *
-     * ```php
+     *  php
      *
      *     $some = new Some(5);
      *     $none = None::create();
@@ -409,7 +409,7 @@ abstract class Option implements IteratorAggregate
      *     if ( ! $option->isEmpty()) {
      *         $result += $option->get();
      *     }
-     * ```
+     *  
      *
      * @template S
      *
