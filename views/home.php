@@ -1,3 +1,72 @@
+<style>
+* { box-sizing: border-box; }
+.carousel-section { width: 100%; margin: 0; padding: 0; margin-top: 70px; }
+.carousel-wrapper { position: relative; width: 100%; overflow: hidden; }
+.carousel-track { display: flex; transition: transform 0.5s ease; }
+.carousel-slide {
+    min-width: 100%;
+    flex-shrink: 0;
+    height: 600px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.85); border: none;
+    font-size: 2rem; padding: 0.3rem 0.9rem;
+    cursor: pointer; border-radius: 6px; z-index: 10;
+}
+.carousel-btn.prev { left: 12px; }
+.carousel-btn.next { right: 12px; }
+.carousel-dots {
+    position: absolute; bottom: 14px; left: 50%;
+    transform: translateX(-50%); display: flex; gap: 8px;
+}
+.carousel-dots .dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: rgba(255,255,255,0.5); border: none; cursor: pointer;
+}
+.carousel-dots .dot.active { background: #fff; }
+</style>
+
+<section class="carousel-section">
+    <div class="carousel-wrapper" id="carouselWrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/acuña.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/keiko.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/jp.png');"></div>
+        </div>
+        <button class="carousel-btn prev" onclick="carouselMove(-1)">&#8249;</button>
+        <button class="carousel-btn next" onclick="carouselMove(1)">&#8250;</button>
+        <div class="carousel-dots">
+            <button class="dot active" onclick="carouselGoTo(0)"></button>
+            <button class="dot" onclick="carouselGoTo(1)"></button>
+            <button class="dot" onclick="carouselGoTo(2)"></button>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    let cur = 0;
+    const track = document.getElementById('carouselTrack');
+    const wrapper = document.getElementById('carouselWrapper');
+    const dots = document.querySelectorAll('.carousel-dots .dot');
+    const total = 3;
+
+    window.carouselGoTo = function(i) {
+        cur = i;
+        track.style.transform = 'translateX(-' + (cur * wrapper.offsetWidth) + 'px)';
+        dots.forEach(function(d, j) { d.classList.toggle('active', j === cur); });
+    };
+    window.carouselMove = function(dir) {
+        carouselGoTo((cur + dir + total) % total);
+    };
+    window.addEventListener('resize', function() { carouselGoTo(cur); });
+    setInterval(function() { carouselMove(1); }, 10000);
+})();
+</script>
 <section class="hero">
 
     <!-- BADGE -->
@@ -48,7 +117,7 @@
 
             <div class="mockup-glow"></div>
 
-            <img src="/Edutech/public/img/dashboard-preview.png" alt="EduTech Dashboard">
+            <img src="/Edutech/public/img/acuña.png" alt="EduTech Dashboard">
 
         </div>
 
@@ -98,7 +167,7 @@
     </div>
 
     <div class="info-image">
-        <img src="/Edutech/public/img/dashboard-preview.png" alt="Vista EduTech">
+        <img src="/Edutech/public/img/acuña.png" alt="Vista EduTech">
     </div>
 
 </section>
@@ -273,7 +342,7 @@
 
             <div class="image-glow"></div>
 
-            <img src="/Edutech/public/img/admin-preview.png" alt="Dashboard Admin">
+            <img src="/Edutech/public/img/acuña.png" alt="Dashboard Admin">
 
         </div>
 
