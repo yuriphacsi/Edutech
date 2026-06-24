@@ -116,49 +116,33 @@ class AuthController extends Controller
         $user = $usuarioModel->findByEmail($correo);
 
         if (!$user) {
-
-            $this->view(
-                'auth/login',
-                ['error' => 'Correo o contraseña incorrectos'],
-                'layouts/auth'
-            );
-
+            $this->view('auth/login', [
+                'error' => 'Correo o contraseña incorrectos'
+            ], 'layouts/auth');
             return;
         }
 
         if (!password_verify($password, $user['password'])) {
-
-            $this->view(
-                'auth/login',
-                ['error' => 'Correo o contraseña incorrectos'],
-                'layouts/auth'
-            );
-
+            $this->view('auth/login', [
+                'error' => 'Correo o contraseña incorrectos'
+            ], 'layouts/auth');
             return;
         }
 
         Session::set('user', [
-            'id' => $user['id_usuario'],
-            'rol' => (int)$user['id_rol'],
-            'nombres' => $user['nombres'],
-            'apellidos' => $user['apellidos']
+            'id' => $user['id'],
+            'nombre' => $user['nombres'],
+            'rol' => $user['id_rol'] // ✔ correcto
         ]);
 
-        switch ((int)$user['id_rol']) {
-            case 1:
-                header("Location: /Edutech/admin");
-                break;
+        $rol = $user['id_rol'];
 
-            case 2:
-                header("Location: /Edutech/asesor");
-                break;
-
-            case 3:
-                header("Location: /Edutech/alumno");
-                break;
-
-            default:
-                die("Rol no válido");
+        if ($rol == 1) {
+            header("Location: /Edutech/admin");
+        } elseif ($rol == 2) {
+            header("Location: /Edutech/asesor");
+        } else {
+            header("Location: /Edutech/alumno");
         }
 
         exit;
@@ -167,8 +151,8 @@ class AuthController extends Controller
     public function logout()
     {
         Session::start();
-
         $_SESSION = [];
+        session_unset();
         session_destroy();
 
         header("Location: /Edutech/login");

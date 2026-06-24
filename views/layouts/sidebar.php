@@ -122,8 +122,17 @@ $nombreUsuario =
 
     <div class="user-card">
 
+        <?php
+        $nombre = $_SESSION['user']['nombres'] ?? 'U';
+        $apellidos = $_SESSION['user']['apellidos'] ?? '';
+
+        $iniciales =
+            strtoupper(substr($nombre, 0, 1)) .
+            strtoupper(substr($apellidos, 0, 1));
+        ?>
+
         <div class="user-avatar">
-            <i class="fa-solid fa-user"></i>
+            <?= $iniciales ?>
         </div>
 
         <div class="user-info">

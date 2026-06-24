@@ -1,17 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-const btn =
-    document.getElementById("notificationBtn");
+    const btn = document.getElementById("notificationBtn");
+    const panel = document.getElementById("notificationPanel");
 
-const panel =
-    document.getElementById("notificationPanel");
+    if (!btn || !panel) {
+        console.log("❌ Notificaciones no encontradas");
+        return;
+    }
 
-if (!btn || !panel) return;
+    // abrir / cerrar
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        panel.classList.toggle("show");
+    });
 
-btn.addEventListener("click", () => {
+    // cerrar al hacer click fuera
+    document.addEventListener("click", () => {
+        panel.classList.remove("show");
+    });
 
-    panel.classList.toggle("show");
-
-});
+    // evitar cierre al hacer click dentro
+    panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
 
 });

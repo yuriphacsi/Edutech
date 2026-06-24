@@ -27,6 +27,32 @@
     <div class="stat-card">
 
         <div class="stat-icon">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+
+        <div>
+            <span class="stat-label">Activos</span>
+            <h2><?= $usuariosActivos ?? 0 ?></h2>
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            <i class="fa-solid fa-user-xmark"></i>
+        </div>
+
+        <div>
+            <span class="stat-label">Inactivos</span>
+            <h2><?= $usuariosInactivos ?? 0 ?></h2>
+        </div>
+
+    </div>
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
             <i class="fa-solid fa-book"></i>
         </div>
 
@@ -37,78 +63,70 @@
 
     </div>
 
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            <i class="fa-solid fa-user-graduate"></i>
-        </div>
-
-        <div>
-            <span class="stat-label">Tutorías</span>
-            <h2>0</h2>
-        </div>
-
-    </div>
-
-    <div class="stat-card">
-
-        <div class="stat-icon">
-            <i class="fa-solid fa-building-columns"></i>
-        </div>
-
-        <div>
-            <span class="stat-label">EduPay</span>
-            <h2>S/ 0</h2>
-        </div>
-
-    </div>
-
-</div>
-
-<div class="dashboard-row">
-    <div class="chart-card">
-
-        <h3>
-            <i class="fa-solid fa-chart-line"></i>
-            Crecimiento de Usuarios
-        </h3>
-
-        <canvas id="usersChart"></canvas>
-
-    </div>
-
 </div>
 
 <div class="dashboard-grid">
 
     <div class="activity-card">
 
+        <h3>Últimos usuarios</h3>
+
+        <ul class="activity-list">
+
+            <?php foreach ($ultimosUsuarios as $u): ?>
+
+                <li>
+                    <span class="activity-dot"></span>
+
+                    <div class="activity-content">
+
+                        <strong>
+                        <?= htmlspecialchars($u['nombre_completo'] ?? 'Usuario') ?>
+                    </strong>
+
+                        <span class="activity-time">
+                            se registró <?= timeAgo($u['created_at']) ?>
+                        </span>
+
+                    </div>
+                </li>
+
+            <?php endforeach; ?>
+
+        </ul>
+
+    </div>
+
+    <div class="activity-card">
+
         <h3>
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            Actividad reciente
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Últimos accesos
         </h3>
 
         <ul class="activity-list">
 
-            <li>
-                <span class="activity-dot"></span>
-                Nuevo usuario registrado
-            </li>
+            <?php foreach ($ultimosAccesos as $u): ?>
 
-            <li>
-                <span class="activity-dot"></span>
-                Curso agregado al sistema
-            </li>
+                <li>
 
-            <li>
-                <span class="activity-dot"></span>
-                Actualización de permisos
-            </li>
+                    <span class="activity-dot"></span>
 
-            <li>
-                <span class="activity-dot"></span>
-                Inicio de sesión administrador
-            </li>
+                    <div class="activity-content">
+
+                        <strong>
+                            <?= htmlspecialchars($u['nombre_completo']) ?>
+                        </strong>
+
+                        <span class="activity-time">
+                            inició sesión <?= timeAgo($u['last_login']) ?>
+                        </span>
+
+                    </div>
+
+                </li>
+
+            <?php endforeach; ?>
 
         </ul>
 
@@ -142,37 +160,44 @@
         </div>
 
     </div>
+</div>
 
-    <div class="quick-card">
+<div class="dashboard-row">
+    <div class="chart-card">
 
         <h3>
-            <i class="fa-solid fa-bolt"></i>
-            Accesos Rápidos
+            <i class="fa-solid fa-chart-line"></i>
+            Crecimiento de Usuarios
         </h3>
 
-        <div class="quick-links">
-
-            <a href="/Edutech/usuarios">
-                <i class="fa-solid fa-users"></i>
-                Usuarios
-            </a>
-
-            <a href="/Edutech/cursos">
-                <i class="fa-solid fa-book"></i>
-                Cursos
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-user-graduate"></i>
-                Tutorías
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-building-columns"></i>
-                EduPay
-            </a>
-
-        </div>
-
+        <canvas id="usersChart"></canvas>
     </div>
+
+    <script>
+    const ctx = document.getElementById('usersChart');
+
+    const data = <?= json_encode($usuariosUltimos12Meses) ?>;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.map(item => item.mes),
+            datasets: [{
+                label: 'Usuarios',
+                data: data.map(item => item.total),
+                borderColor: '#2563eb',
+                tension: 0.4,
+                fill: true
+            }]
+        }
+    });
+    </script>
+
 </div>
+
+<script>
+    window.usuariosPorMes = <?= json_encode($usuariosPorMes ?? []) ?>;
+</script>
+<script>
+    window.usuariosUltimos12Meses = <?= json_encode($usuariosUltimos12Meses ?? []) ?>;
+</script>

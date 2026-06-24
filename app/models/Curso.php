@@ -101,4 +101,21 @@ class Curso extends Model
 
         return (int) $stmt->fetch()['total'];
     }
+
+    public function getLatest(int $limit = 5): array
+    {
+        $stmt = $this->db->prepare("
+            SELECT
+                nombre,
+                created_at
+            FROM cursos
+            ORDER BY id_curso DESC
+            LIMIT ?
+        ");
+
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

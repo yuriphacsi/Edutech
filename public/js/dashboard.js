@@ -1,31 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const ctx =
-        document.getElementById('usersChart');
+    const ctx = document.getElementById("usersChart");
 
     if (!ctx) return;
 
+    const data = window.usuariosUltimos12Meses || [];
+
+    const labels = data.map(item => item.mes);
+    const values = data.map(item => item.total);
+
     new Chart(ctx, {
-
-        type: 'line',
-
+        type: "line",
         data: {
-
-            labels: [
-                'Ene',
-                'Feb',
-                'Mar',
-                'Abr',
-                'May',
-                'Jun'
-            ],
-
+            labels: labels,
             datasets: [{
-                label: 'Usuarios',
-                data: [5, 8, 12, 15, 20, 25]
+                label: "Usuarios (12 meses)",
+                data: values,
+                borderColor: "#2563eb",
+                backgroundColor: "rgba(37,99,235,0.1)",
+                tension: 0.4,
+                fill: true
             }]
         }
-
     });
 
 });
