@@ -9,13 +9,27 @@
                 Crear Usuario
             </h1>
 
-            <a href="/Edutech/usuarios" class="back-link">
+            <a href="/Edutech/admin/usuarios" class="back-link">
                 Volver a Usuarios
             </a>
 
         </div>
 
-        <form method="POST" action="/Edutech/usuarios/store">
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="alert alert-error">
+                <?= $_SESSION['error']; ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?= $_SESSION['success']; ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <form method="POST" action="/Edutech/admin/usuarios/store">
 
             <div class="form-group">
                 <label>Nombres</label>

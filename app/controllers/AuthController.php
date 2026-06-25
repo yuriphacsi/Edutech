@@ -92,12 +92,17 @@ class AuthController extends Controller
             return;
         }
 
+        $passwordHash = password_hash(
+            $password,
+            PASSWORD_DEFAULT
+        );
+
         $usuarioModel->create([
             'id_rol' => 3,
             'nombres' => $nombres,
             'apellidos' => $apellidos,
             'correo' => $correo,
-            'password' => $password,
+            'password' => $passwordHash,
             'estado' => 1
         ]);
 
@@ -122,6 +127,13 @@ class AuthController extends Controller
             return;
         }
 
+        if ((int)$user['estado'] === 0) {
+            $this->view('auth/login', [
+                'error' => 'Tu cuenta está inactiva. Contacta al administrador.'
+            ], 'layouts/auth');
+            return;
+        }
+
         if (!password_verify($password, $user['password'])) {
             $this->view('auth/login', [
                 'error' => 'Correo o contraseña incorrectos'
@@ -131,8 +143,9 @@ class AuthController extends Controller
 
         Session::set('user', [
             'id' => $user['id'],
-            'nombre' => $user['nombres'],
-            'rol' => $user['id_rol'] // ✔ correcto
+            'nombres' => $user['nombres'],
+            'apellidos' => $user['apellidos'],
+            'rol' => $user['id_rol']
         ]);
 
         $rol = $user['id_rol'];

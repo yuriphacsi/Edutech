@@ -37,14 +37,14 @@ $nombreUsuario =
                 GESTIÓN
             </div>
 
-            <a href="/Edutech/usuarios"
+            <a href="/Edutech/admin/usuarios"
                 data-tooltip="Usuarios"
                 class="<?= str_contains($current, '/usuarios') ? 'active' : '' ?>">
                 <i class="fa-solid fa-users"></i>
                 <span class="menu-text">Usuarios</span>
             </a>
 
-            <a href="/Edutech/cursos"
+            <a href="/Edutech/admin/cursos"
                 data-tooltip="Cursos"
                 class="<?= str_contains($current, '/cursos') ? 'active' : '' ?>">
                 <i class="fa-solid fa-book"></i>
@@ -123,17 +123,17 @@ $nombreUsuario =
     <div class="user-card">
 
         <?php
-        $nombre = $_SESSION['user']['nombres'] ?? 'U';
-        $apellidos = $_SESSION['user']['apellidos'] ?? '';
+            $nombre = $_SESSION['user']['nombres'] ?? 'U';
+            $apellidos = $_SESSION['user']['apellidos'] ?? '';
 
-        $iniciales =
-            strtoupper(substr($nombre, 0, 1)) .
-            strtoupper(substr($apellidos, 0, 1));
-        ?>
+            $iniciales =
+                strtoupper(substr($nombre, 0, 1)) .
+                strtoupper(substr($apellidos, 0, 1));
+            ?>
 
-        <div class="user-avatar">
-            <?= $iniciales ?>
-        </div>
+            <div class="user-avatar">
+                <?= $iniciales ?>
+            </div>
 
         <div class="user-info">
 

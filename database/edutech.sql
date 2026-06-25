@@ -15,6 +15,7 @@ CREATE TABLE roles (
 
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+
     id_rol INT NOT NULL,
 
     nombres VARCHAR(100) NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE usuarios (
 
     estado TINYINT(1) DEFAULT 1,
 
-    ultimo_acceso DATETIME NULL,
+    last_login TIMESTAMP NULL,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -36,6 +37,7 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuario_rol
         FOREIGN KEY (id_rol)
         REFERENCES roles(id_rol)
+        ON DELETE RESTRICT
 );
 
 CREATE TABLE alumnos (
@@ -86,18 +88,22 @@ CREATE TABLE cursos (
     nombre VARCHAR(150) NOT NULL,
     descripcion TEXT,
 
-    nivel ENUM(
-        'Basico',
-        'Intermedio',
-        'Avanzado'
-    ) DEFAULT 'Basico',
+    nivel ENUM('Basico','Intermedio','Avanzado') DEFAULT 'Basico',
 
     imagen VARCHAR(255),
 
     estado TINYINT(1) DEFAULT 1,
 
+    id_asesor INT NULL,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    cupo_maximo INT NOT NULL DEFAULT 30,
+
+    CONSTRAINT fk_curso_asesor
+        FOREIGN KEY (id_asesor)
+        REFERENCES asesores(id_asesor)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE asesor_curso (
@@ -257,8 +263,79 @@ CREATE TABLE notificaciones (
         ON DELETE CASCADE
 );
 
-INSERT INTO roles (nombre, descripcion)
+CREATE TABLE permisos (
+    id_permiso INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE rol_permisos (
+    id_rol INT NOT NULL,
+    id_permiso INT NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_rp_rol
+        FOREIGN KEY (id_rol)
+        REFERENCES roles(id_rol)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_rp_permiso
+        FOREIGN KEY (id_permiso)
+        REFERENCES permisos(id_permiso)
+        ON DELETE CASCADE,
+
+    PRIMARY KEY (id_rol, id_permiso)
+);
+
+CREATE TABLE inscripciones (
+    id_inscripcion INT AUTO_INCREMENT PRIMARY KEY,
+    id_curso INT NOT NULL,
+    id_usuario INT NOT NULL, -- alumno (usuario con rol alumno)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_insc_curso
+        FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_insc_usuario
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE logs_usuarios (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    accion VARCHAR(100) NOT NULL,
+    data TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO roles (nombre, descripcion, estado)
+VALUES 
+('Administrador', 'Control total del sistema', 1),
+('Asesor', 'Brinda asesorías académicas', 1),
+('Alumno', 'Solicita asesorías académicas', 1);
+
+INSERT INTO usuarios 
+(id_usuario, id_rol, nombres, apellidos, correo, password, foto_perfil, telefono, estado, created_at, updated_at, last_login)
+VALUES 
+(1, 1, 'Chistian', 'Dominguez', 'admin@edutech.com', 
+'$2y$10$gVzMZYpAnhrP8l2GIbnH7.rPOdqpIFncTPpEnFzUHm1WQvu7M9mZW',
+NULL, NULL, 1, NOW(), NOW(), '2026-06-22 15:45:44');
+
+INSERT INTO permisos (id_permiso, nombre)
 VALUES
-('Administrador', 'Control total del sistema'),
-('Asesor', 'Brinda asesorias academicas'),
-('Alumno', 'Solicita asesorias academicas');
+(1, 'ver_dashboard'),
+(2, 'gestionar_usuarios'),
+(3, 'gestionar_cursos'),
+(4, 'ver_reportes');
+
+INSERT INTO rol_permisos (id_rol, id_permiso)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 1),
+(2, 3),
+(3, 1);

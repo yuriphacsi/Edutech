@@ -28,7 +28,12 @@ class Usuario extends Model
 
     public function all(): array
     {
-        $stmt = $this->db->query("SELECT * FROM usuarios");
+        $stmt = $this->db->query("
+            SELECT * 
+            FROM usuarios 
+            ORDER BY id_usuario DESC
+        ");
+
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -40,22 +45,9 @@ class Usuario extends Model
         return (bool) $stmt->fetchColumn();
     }
 
-    public function create(array $data): bool
-    {
-        $sql = "INSERT INTO usuarios 
-            (id_rol, nombres, apellidos, correo, password, estado)
-            VALUES 
-            (:id_rol, :nombres, :apellidos, :correo, :password, :estado)";
-
-        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);
-    }
-
     public function delete(int $id): bool
     {
-        $sql = "UPDATE usuarios SET estado = 0 WHERE id_usuario = :id";
+        $sql = "DELETE FROM usuarios WHERE id_usuario = :id";
         $stmt = $this->db->prepare($sql);
 
         return $stmt->execute(['id' => $id]);
@@ -93,21 +85,6 @@ class Usuario extends Model
 
         $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
         $stmt->execute();
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    public function usersByMonth(): array
-    {
-        $stmt = $this->db->query("
-            SELECT 
-                DATE_FORMAT(created_at,'%b') as mes,
-                COUNT(*) as total
-            FROM usuarios
-            WHERE created_at IS NOT NULL
-            GROUP BY mes
-            ORDER BY mes ASC
-        ");
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -152,6 +129,38 @@ class Usuario extends Model
 
         $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
         $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getStats()
+    {
+        $sql = "SELECT 
+                    COUNT(*) AS total,
+                    SUM(CASE WHEN estado = 1 THEN 1 ELSE 0 END) AS activos,
+                    SUM(CASE WHEN estado = 0 THEN 1 ELSE 0 END) AS inactivos,
+                    SUM(CASE WHEN id_rol = 1 THEN 1 ELSE 0 END) AS admins
+                FROM usuarios";
+
+        $stmt = $this->db->query($sql);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function search(string $q): array
+    {
+        $sql = "
+            SELECT *
+            FROM usuarios
+            WHERE nombres LIKE :q
+            OR apellidos LIKE :q
+            OR correo LIKE :q
+            ORDER BY id_usuario DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'q' => "%{$q}%"
+        ]);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

@@ -17,13 +17,19 @@ class Model
 
     public function all(): array
     {
-        $stmt = $this->db->query("SELECT * FROM {$this->table}");
+        $sql = "SELECT * FROM {$this->table} ORDER BY {$this->primaryKey} DESC";
+
+        $stmt = $this->db->query($sql);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function find(int $id): array|false
     {
+        if (empty($this->table) || empty($this->primaryKey)) {
+            throw new \Exception("Table or primaryKey not defined in model");
+        }
+
         $sql = "SELECT * FROM {$this->table}
                 WHERE {$this->primaryKey} = :id";
 
@@ -35,19 +41,18 @@ class Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function create(array $data): bool
+    public function create(array $data): int
     {
-        $fields = implode(',', array_keys($data));
+        $columns = array_keys($data);
+        $fields = implode(',', $columns);
+        $placeholders = ':' . implode(', :', $columns);
 
-        $placeholders = ':' . implode(', :', array_keys($data));
-
-        $sql = "INSERT INTO {$this->table}
-                ({$fields})
-                VALUES ({$placeholders})";
+        $sql = "INSERT INTO {$this->table} ($fields) VALUES ($placeholders)";
 
         $stmt = $this->db->prepare($sql);
+        $stmt->execute($data);
 
-        return $stmt->execute($data);
+        return (int) $this->db->lastInsertId();
     }
 
     public function update(int $id, array $data): bool
@@ -79,5 +84,10 @@ class Model
         return $stmt->execute([
             'id' => $id
         ]);
+    }
+
+    public function getConnection()
+    {
+        return $this->db;
     }
 }

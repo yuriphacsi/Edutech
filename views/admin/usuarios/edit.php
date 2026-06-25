@@ -15,7 +15,7 @@
 
         </div>
 
-        <form action="/Edutech/usuarios/update" method="POST">
+        <form action="/Edutech/admin/usuarios/update" method="POST">
 
             <input
                 type="hidden"
