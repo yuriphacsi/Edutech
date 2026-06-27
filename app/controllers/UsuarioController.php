@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\Usuario;
+use App\Models\Alumno;
+use App\Models\Asesor;
 use App\Middleware\AuthMiddleware;
 use App\Helpers\Session;
 
@@ -21,22 +23,18 @@ class UsuarioController extends Controller
 
         $q = $_GET['q'] ?? null;
 
-        if ($q) {
-            $usuarios = $usuarioModel->search($q);
-        } else {
-            $usuarios = $usuarioModel->all();
-        }
-
         $stats = $usuarioModel->getStats();
-        $usuarios = $q ? $usuarioModel->search($q) : $usuarioModel->all();
 
-        $data = [
+        $usuarios = $q
+            ? $usuarioModel->search($q)
+            : $usuarioModel->all();
+
+        $this->view('admin/usuarios/index', [
             'usuarios' => $usuarios,
             'stats' => $stats,
-            'q' => $q
-        ];
-
-        $this->view('admin/usuarios/index', $data, 'layouts/main');
+            'q' => $q,
+            'moduleCss' => ['usuarios.css']
+        ], 'layouts/main');
     }
 
     public function create()
@@ -58,14 +56,12 @@ class UsuarioController extends Controller
             exit;
         }
 
-        // 🔥 validar duplicado
         if ($usuario->emailExists($correo)) {
             Session::set('error', '❌ Este correo ya está registrado');
             header("Location: /Edutech/admin/usuarios/create");
             exit;
         }
 
-        // crear usuario
         $id = $usuario->create([
             'id_rol' => $_POST['id_rol'],
             'nombres' => $_POST['nombres'],
@@ -75,18 +71,16 @@ class UsuarioController extends Controller
             'estado' => 1
         ]);
 
-        $db = $usuario->getConnection();
-
-        // 👨‍🏫 asesor
         if ($_POST['id_rol'] == 2) {
-            $db->prepare("INSERT INTO asesores (id_usuario) VALUES (:id)")
-                ->execute(['id' => $id]);
+            $asesor = new Asesor();
+            $asesor->createAsesor($id);
         }
 
-        // 👨‍🎓 alumno
         if ($_POST['id_rol'] == 3) {
-            $db->prepare("INSERT INTO alumnos (id_usuario) VALUES (:id)")
-                ->execute(['id' => $id]);
+            $alumno = new Alumno();
+            $alumno->create([
+                'id_usuario' => $id
+            ]);
         }
 
         Session::set('success', '✔ Usuario creado correctamente');
@@ -105,16 +99,18 @@ class UsuarioController extends Controller
 
         $usuarioModel = new Usuario();
 
-        $data = [
+        $this->view('admin/usuarios/edit', [
             'usuario' => $usuarioModel->find($id)
-        ];
-
-        $this->view('admin/usuarios/edit', $data, 'layouts/main');
+        ], 'layouts/main');
     }
 
     public function update()
     {
-        $id = $_POST['id_usuario'];
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            die("ID no válido");
+        }
 
         $usuario = new Usuario();
 
@@ -131,6 +127,8 @@ class UsuarioController extends Controller
 
     public function delete()
     {
+        Session::start();
+
         $id = $_POST['id'] ?? null;
 
         if (!$id) {
@@ -144,13 +142,13 @@ class UsuarioController extends Controller
             die("Usuario no encontrado");
         }
 
-        // 🚨 PROTECCIÓN 1: evitar admin
         if ((int)$usuario['id_rol'] === 1) {
             die("No se puede eliminar un administrador");
         }
 
-        // 🚨 PROTECCIÓN 2: evitar auto-eliminación
-        if ($usuario['id_usuario'] == $_SESSION['user']['id_usuario']) {
+        $sessionUserId = $_SESSION['user']['id'] ?? null;
+
+        if ($usuario['id_usuario'] == $sessionUserId) {
             die("No puedes eliminar tu propia cuenta");
         }
 
@@ -158,7 +156,6 @@ class UsuarioController extends Controller
             die("Método no permitido");
         }
 
-        // ✔ eliminar
         $this->logDeletion($usuario);
         $usuarioModel->delete($id);
 
@@ -168,6 +165,8 @@ class UsuarioController extends Controller
 
     public function toggle()
     {
+        Session::start();
+
         $id = $_POST['id'] ?? null;
 
         if (!$id) {
@@ -175,8 +174,15 @@ class UsuarioController extends Controller
         }
 
         $usuarioModel = new Usuario();
-
         $usuario = $usuarioModel->find($id);
+
+        if (!$usuario) {
+            die("Usuario no encontrado");
+        }
+
+        if ((int)$usuario['id_rol'] === 1) {
+            die("No se puede cambiar el estado de un administrador");
+        }
 
         $nuevoEstado = $usuario['estado'] == 1 ? 0 : 1;
 
@@ -193,14 +199,12 @@ class UsuarioController extends Controller
         $usuarioModel = new Usuario();
         $db = $usuarioModel->getConnection();
 
-        // 🚨 validar sesión correctamente
-        $adminId = $_SESSION['user']['id_usuario'] ?? null;
+        $adminId = $_SESSION['user']['id'] ?? null;
 
         if (!$adminId) {
-            return; // no rompe el sistema
+            return;
         }
 
-        // 🚨 evitar null en usuario eliminado
         $deletedId = $usuario['id_usuario'] ?? null;
 
         if (!$deletedId) {
@@ -224,7 +228,7 @@ class UsuarioController extends Controller
             ]);
 
         } catch (\Throwable $e) {
-            // 🔥 nunca romper flujo por logs
+            // silencioso
         }
     }
 }

@@ -65,7 +65,9 @@ class AdminController extends Controller
             'cursosRecientes' => $cursosRecientes,
         ];
 
-        $this->view('admin/dashboard', $data, 'layouts/main');
+        $this->view('admin/dashboard', array_merge($data, [
+            'module' => 'dashboard'
+        ]), 'layouts/main');
     }
 
 

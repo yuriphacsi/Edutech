@@ -1,63 +1,100 @@
-<h1>✏️ Editar Curso</h1>
+<div class="form-page">
 
-<a href="/Edutech/admin/cursos">⬅ Volver</a>
+    <div class="form-card">
 
-<br><br>
+        <div class="form-header">
 
-<form action="/Edutech/admin/cursos/update" method="POST"
-      style="max-width:500px; background:rgba(255,255,255,0.05); padding:20px; border-radius:12px;">
+            <h1>
+                <i class="fa-solid fa-pen-to-square"></i>
+                Editar Curso
+            </h1>
 
-    <input type="hidden" name="id" value="<?= $curso['id_curso'] ?? '' ?>">
+            <a href="/Edutech/admin/cursos" class="back-link">
+                ⬅ Volver
+            </a>
 
-    <label>Nombre</label><br>
-    <input type="text" name="nombre"
-           value="<?= $curso['nombre'] ?? '' ?>"
-           required
-           style="width:100%; padding:10px; margin:8px 0;"><br>
+        </div>
 
-    <label>Descripción</label><br>
-    <textarea name="descripcion"
-              rows="4"
-              style="width:100%; padding:10px; margin:8px 0;"><?= $curso['descripcion'] ?? '' ?></textarea><br>
+        <form action="/Edutech/admin/cursos/update" method="POST">
 
-    <label>Nivel</label><br>
-    <select name="nivel" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="Basico" <?= ($curso['nivel'] ?? '') === 'Basico' ? 'selected' : '' ?>>Básico</option>
-        <option value="Intermedio" <?= ($curso['nivel'] ?? '') === 'Intermedio' ? 'selected' : '' ?>>Intermedio</option>
-        <option value="Avanzado" <?= ($curso['nivel'] ?? '') === 'Avanzado' ? 'selected' : '' ?>>Avanzado</option>
-    </select><br>
+            <input type="hidden" name="id_curso" value="<?= $curso['id_curso'] ?>">
 
-    <!-- 👨‍🏫 ASIGNAR ASESOR -->
-    <label>Asesor</label><br>
-    <select name="id_asesor" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="">Sin asesor</option>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" name="nombre"
+                       value="<?= $curso['nombre'] ?? '' ?>"
+                       required>
+            </div>
 
-        <?php foreach ($asesores as $asesor): ?>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea name="descripcion"
+                          rows="4"><?= $curso['descripcion'] ?? '' ?></textarea>
+            </div>
 
-            <?php
-                $nombre = $asesor['nombres'] . ' ' . $asesor['apellidos'];
-                $selected = ($curso['id_asesor'] ?? null) == $asesor['id_asesor']
-                    ? 'selected'
-                    : '';
-            ?>
+            <div class="form-group">
+                <label>Nivel</label>
+                <select name="nivel">
+                    <option value="Basico" <?= ($curso['nivel'] ?? '') === 'Basico' ? 'selected' : '' ?>>Básico</option>
+                    <option value="Intermedio" <?= ($curso['nivel'] ?? '') === 'Intermedio' ? 'selected' : '' ?>>Intermedio</option>
+                    <option value="Avanzado" <?= ($curso['nivel'] ?? '') === 'Avanzado' ? 'selected' : '' ?>>Avanzado</option>
+                </select>
+            </div>
 
-            <option value="<?= $asesor['id_asesor'] ?>" <?= $selected ?>>
-                <?= $nombre ?>
-            </option>
+            <div class="form-group">
+                <label>Asesor</label>
+                <select name="id_asesor">
 
-        <?php endforeach; ?>
+                    <option value="">Sin asesor</option>
 
-    </select><br>
+                    <?php foreach ($asesores as $asesor): ?>
 
-    <label>Estado</label><br>
-    <select name="estado" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="1" <?= (int)($curso['estado'] ?? 0) === 1 ? 'selected' : '' ?>>Activo</option>
-        <option value="0" <?= (int)($curso['estado'] ?? 0) === 0 ? 'selected' : '' ?>>Inactivo</option>
-    </select><br><br>
+                        <?php
+                            $nombre = $asesor['nombres'] . ' ' . $asesor['apellidos'];
+                            $selected = ($curso['id_asesor'] ?? null) == $asesor['id_asesor']
+                                ? 'selected'
+                                : '';
+                        ?>
 
-    <button type="submit"
-            style="padding:10px 15px; background:#f59e0b; color:white; border:none; border-radius:8px;">
-        Actualizar Curso
-    </button>
+                        <option value="<?= $asesor['id_asesor'] ?>" <?= $selected ?>>
+                            <?= $nombre ?>
+                        </option>
 
-</form>
+                    <?php endforeach; ?>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cupo máximo de estudiantes</label>
+
+                <input
+                    type="number"
+                    name="cupo_maximo"
+                    value="<?= htmlspecialchars($curso['cupo_maximo'] ?? 30) ?>"
+                    min="1"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Estado</label>
+                <select name="estado">
+                    <option value="1" <?= (int)($curso['estado'] ?? 0) === 1 ? 'selected' : '' ?>>
+                        Activo
+                    </option>
+                    <option value="0" <?= (int)($curso['estado'] ?? 0) === 0 ? 'selected' : '' ?>>
+                        Inactivo
+                    </option>
+                </select>
+            </div>
+
+            <button class="btn-save" type="submit">
+                Actualizar Curso
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

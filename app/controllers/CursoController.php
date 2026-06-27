@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\Curso;
 use App\Models\Asesor;
+use App\Helpers\Session;
 use App\Middleware\AuthMiddleware;
 
 class CursoController extends Controller
@@ -15,115 +16,148 @@ class CursoController extends Controller
         AuthMiddleware::role([1]); // solo admin
     }
 
+    // 📄 LISTAR CURSOS
     public function index()
     {
         $cursoModel = new Curso();
-        $cursos = $cursoModel->all();
+
+        $data = [
+            'cursos' => $cursoModel->list(),
+        ];
 
         $this->view('admin/cursos/index', [
-            'cursos' => $cursos
-        ]);
+            'cursos' => $cursoModel->list(),
+            'module' => 'cursos'
+        ], 'layouts/main');
     }
 
+    // ➕ FORM CREAR
     public function create()
     {
         $asesorModel = new Asesor();
 
+        $data = [
+            'asesores' => $asesorModel->getAllAsesores()
+        ];
+
         $this->view('admin/cursos/create', [
-            'asesores' => $asesorModel->all()
+            'asesores' => $asesorModel->getAllAsesores(),
+            'module' => 'cursos'
         ], 'layouts/main');
     }
 
+    // 💾 GUARDAR CURSO
     public function store()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            die("Método no permitido");
+        Session::start();
+
+        $curso = new Curso();
+
+        $nombre = $_POST['nombre'] ?? null;
+        $descripcion = $_POST['descripcion'] ?? null;
+        $nivel = $_POST['nivel'] ?? null;
+        $id_asesor = !empty($_POST['id_asesor']) ? $_POST['id_asesor'] : null;
+        $cupo_maximo = $_POST['cupo_maximo'] ?? 0;
+
+        // 📸 imagen (simple base)
+        $imagen = null;
+
+        if (!empty($_FILES['imagen']['name'])) {
+            $imageName = time() . '_' . $_FILES['imagen']['name'];
+            $path = "public/uploads/" . $imageName;
+
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $path);
+
+            $imagen = $imageName;
         }
 
-        $cursoModel = new Curso();
+        // 💾 guardar
+        $curso->create([
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'nivel' => $nivel,
+            'id_asesor' => $id_asesor,
+            'cupo_maximo' => $cupo_maximo,
+            'imagen' => $imagen,
+            'estado' => 1
+        ]);
 
-        $data = [
-            'nombre' => trim($_POST['nombre'] ?? ''),
-            'descripcion' => trim($_POST['descripcion'] ?? ''),
-            'nivel' => $_POST['nivel'] ?? 'Basico',
-            'cupo_maximo' => (int) ($_POST['cupo_maximo'] ?? 30),
-            'id_asesor' => !empty($_POST['id_asesor']) ? (int)$_POST['id_asesor'] : null,
-            'estado' => (int) ($_POST['estado'] ?? 1)
-        ];
-
-        if (trim($data['nombre']) === '') {
-            die("El nombre es obligatorio");
-        }
-
-        $cursoModel->create($data);
+        Session::set('success', '✔ Curso creado correctamente');
 
         header("Location: /Edutech/admin/cursos");
         exit;
     }
 
+    // ✏️ EDITAR
     public function edit()
     {
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            die("ID no válido");
+            die("ID inválido");
         }
 
-        $cursoModel = new Curso();
-        $asesorModel = new Asesor();
+        $curso = new Curso();
+        $asesor = new Asesor();
+
+        $cursoData = $curso->find($id);
 
         $this->view('admin/cursos/edit', [
-            'curso' => $cursoModel->find($id),
-            'asesores' => $asesorModel->all()
+            'curso' => $cursoData,
+            'asesores' => $asesor->getAllAsesores(),
+            'module' => 'cursos'
         ], 'layouts/main');
     }
 
+    // 🔄 ACTUALIZAR
     public function update()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            die("Método no permitido");
-        }
-
-        $id = $_POST['id'] ?? null;
+        $id = $_POST['id_curso'] ?? null;
 
         if (!$id) {
             die("ID inválido");
         }
 
-        $cursoModel = new Curso();
+        $curso = new Curso();
 
         $data = [
-            'nombre' => trim($_POST['nombre'] ?? ''),
-            'descripcion' => trim($_POST['descripcion'] ?? ''),
-            'nivel' => $_POST['nivel'] ?? 'Basico',
-            'cupo_maximo' => (int) ($_POST['cupo_maximo'] ?? 30),
-            'id_asesor' => !empty($_POST['id_asesor']) ? (int)$_POST['id_asesor'] : null,
-            'estado' => (int) ($_POST['estado'] ?? 1)
+            'nombre' => $_POST['nombre'],
+            'descripcion' => $_POST['descripcion'],
+            'nivel' => $_POST['nivel'],
+            'id_asesor' => !empty($_POST['id_asesor']) ? $_POST['id_asesor'] : null,
+            'cupo_maximo' => $_POST['cupo_maximo'] ?? 0
         ];
 
-        $cursoModel->update($id, $data);
+        if (!empty($_FILES['imagen']['name'])) {
+            $imageName = time() . '_' . $_FILES['imagen']['name'];
+            $path = "public/uploads/" . $imageName;
+
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $path);
+
+            $data['imagen'] = $imageName;
+        }
+
+        $curso->update($id, $data);
+
+        Session::set('success', '✔ Curso actualizado correctamente');
 
         header("Location: /Edutech/admin/cursos");
         exit;
     }
 
+    // 🗑️ ELIMINAR
     public function delete()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            die("Método no permitido");
-        }
-
         $id = $_POST['id'] ?? null;
 
         if (!$id) {
             die("ID inválido");
         }
 
-        $cursoModel = new Curso();
+        $curso = new Curso();
+        $curso->delete($id);
 
-        $cursoModel->update($id, [
-            'estado' => 0
-        ]);
+        Session::set('success', '✔ Curso eliminado');
 
         header("Location: /Edutech/admin/cursos");
         exit;

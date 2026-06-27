@@ -10,75 +10,39 @@ class Curso extends Model
     protected string $table = 'cursos';
     protected string $primaryKey = 'id_curso';
 
-    public function all(): array
+    public function list(): array
     {
         $sql = "
-            SELECT
+            SELECT 
                 c.id_curso,
                 c.nombre,
-                c.descripcion,
                 c.nivel,
-                c.imagen,
-                c.estado,
-                c.id_asesor,
                 c.cupo_maximo,
+                c.estado,
 
                 u.nombres AS asesor_nombre,
-                u.apellidos AS asesor_apellido,
-
-                COALESCE(COUNT(i.id_inscripcion), 0) AS total_alumnos
+                u.apellidos AS asesor_apellido
 
             FROM cursos c
 
-            LEFT JOIN asesores a
+            LEFT JOIN asesores a 
                 ON a.id_asesor = c.id_asesor
 
-            LEFT JOIN usuarios u
+            LEFT JOIN usuarios u 
                 ON u.id_usuario = a.id_usuario
-
-            LEFT JOIN inscripciones i
-                ON i.id_curso = c.id_curso
-
-            GROUP BY
-                c.id_curso,
-                c.nombre,
-                c.descripcion,
-                c.nivel,
-                c.imagen,
-                c.estado,
-                c.id_asesor,
-                c.cupo_maximo,
-                u.nombres,
-                u.apellidos
 
             ORDER BY c.id_curso DESC
         ";
 
-        $stmt = $this->db->query($sql);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function find(int $id): array|false
-    {
-        return parent::find($id);
-    }
-
-    public function create(array $data): int
-    {
-        return parent::create($data);
-    }
-
-    public function update(int $id, array $data): bool
-    {
-        return parent::update($id, $data);
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function delete(int $id): bool
     {
         $sql = "
             UPDATE cursos
-            SET estado = 0
+            SET estado = 0,
+                updated_at = NOW()
             WHERE id_curso = :id
         ";
 
@@ -89,12 +53,15 @@ class Curso extends Model
         ]);
     }
 
-    public function countAll(): int
+    public function countAll(int $estado = 1): int
     {
-        $stmt = $this->db->query("
+        $stmt = $this->db->prepare("
             SELECT COUNT(*) AS total
             FROM cursos
+            WHERE estado = :estado
         ");
+
+        $stmt->execute(['estado' => $estado]);
 
         return (int) $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
@@ -104,11 +71,12 @@ class Curso extends Model
         $stmt = $this->db->prepare("
             SELECT nombre, created_at
             FROM cursos
+            WHERE estado = 1
             ORDER BY id_curso DESC
-            LIMIT ?
+            LIMIT :limit
         ");
 
-        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

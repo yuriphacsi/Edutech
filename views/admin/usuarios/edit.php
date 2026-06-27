@@ -9,7 +9,7 @@
                 Editar Usuario
             </h1>
 
-            <a href="/Edutech/usuarios" class="back-link">
+            <a href="/Edutech/admin/usuarios" class="back-link">
                 Volver a Usuarios
             </a>
 

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'edutech/plataforma',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '6397882eb9db9c6faf26d460ce77bcd983895d20',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '592dfda07ec9522b576dfaba548a45263a4b6476',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'edutech/plataforma' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '6397882eb9db9c6faf26d460ce77bcd983895d20',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '592dfda07ec9522b576dfaba548a45263a4b6476',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

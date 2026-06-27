@@ -51,13 +51,6 @@ $nombreUsuario =
                 <span class="menu-text">Cursos</span>
             </a>
 
-            <a href="#"
-                data-tooltip="Tutorias"
-                class="<?= str_contains($current, '/tutorias') ? 'active' : '' ?>">
-                <i class="fa-solid fa-user-graduate"></i>
-                <span class="menu-text">Tutorías</span>
-            </a>
-
             <div class="menu-section" data-tooltip="Servicios">
                 SERVICIOS
             </div>

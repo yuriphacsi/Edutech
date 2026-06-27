@@ -1,200 +1,112 @@
-.container {
-    padding: 10px;
-}
 
-.header {
+/* =========================
+   USERS HEADER
+========================= */
+
+.users-card .header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-.header h1 {
+.users-card .header h1 {
     margin: 0;
-
-    font-size: 28px;
-
+    font-size: 22px;
     color: #0f172a;
 }
 
-.btn {
+/* =========================
+   SEARCH
+========================= */
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    outline: none;
+}
+
+.search-form button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
     background: #2563eb;
-
-    color: white;
-
-    padding: 12px 18px;
-
-    border-radius: 12px;
-
-    text-decoration: none;
-
-    font-weight: 600;
-
-    transition: .25s ease;
+    color: #fff;
+    cursor: pointer;
+    transition: .2s;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-
-    box-shadow: 0 10px 20px rgba(37,99,235,.25);
-}
-
-.table {
-    width: 100%;
-
-    border-collapse: collapse;
-
-    background: white;
-}
-
-.table th {
-    background: #f8fafc;
-
-    color: #475569;
-
-    font-size: 13px;
-
-    font-weight: 700;
-}
-
-.table th,
-.table td {
-    padding: 16px;
-
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.table tr:hover {
-    background: #f8fafc;
+.search-form button:hover {
+    background: #1d4ed8;
 }
 
 /* =========================
-   BADGES
+   BADGES (SOLO EXTENSIÓN USUARIOS)
 ========================= */
 
-.badge {
-    display: inline-flex;
-    align-items: center;
-
-    padding: 6px 12px;
-
-    border-radius: 999px;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: .3px;
-}
-
-.admin {
+.badge.admin {
     background: rgba(37,99,235,.12);
     color: #2563eb;
 }
 
-.asesor {
+.badge.asesor {
+    background: rgba(245,158,11,.12);
+    color: #d97706;
+}
+
+.badge.alumno {
     background: rgba(34,197,94,.12);
     color: #16a34a;
 }
 
-.alumno {
-    background: rgba(168,85,247,.12);
-    color: #9333ea;
+.badge.activo {
+    background: rgba(34,197,94,.12);
+    color: #16a34a;
 }
 
-.inactivo {
+.badge.inactivo {
     background: rgba(239,68,68,.12);
     color: #dc2626;
 }
 
-.actions a {
-    margin-right: 10px;
-    color: #60a5fa;
-    text-decoration: none;
-    font-size: 13px;
-}
-
-.actions a:hover {
-    text-decoration: underline;
-}
-
-.container-form {
-    display: flex;
-    justify-content: center;
-}
-
-.card {
-    width: 520px;
-
-    background: white;
-
-    border-radius: 16px;
-
-    padding: 25px;
-
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-
-.card h1 {
-    margin-bottom: 20px;
-}
-
-.card input,
-.card select {
-    width: 100%;
-
-    padding: 12px;
-
-    margin-bottom: 15px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 10px;
-
-    box-sizing: border-box;
-}
-
-.card input:focus,
-.card select:focus {
-    border-color: #2563eb;
-    outline: none;
-}
-
-.btn-success {
-    width: 100%;
-
-    padding: 12px;
-
-    background: #22c55e;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-}
-
 /* =========================
-   USERS PAGE
+   TABLE OVERRIDES (solo módulo usuarios)
 ========================= */
 
-.users-page {
+.module-card .table {
     width: 100%;
+    border-collapse: collapse;
+    background: #fff;
 }
 
-.users-card {
-    background: #ffffff;
+.module-card .table th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+}
 
-    border-radius: 18px;
+.module .table th,
+.users-card .table td {
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
 
-    padding: 24px;
+.users-card .table tr:hover {
+    background: #f8fafc;
+}
 
-    box-shadow: 0 10px 30px rgba(15,23,42,.08);
-
-    border: 1px solid #e2e8f0;
+.users-card .table td:last-child,
+.users-card .table th:last-child {
+    text-align: center;
 }
 
 /* =========================
@@ -203,327 +115,57 @@
 
 .actions {
     display: flex;
-
     justify-content: center;
     align-items: center;
-
     gap: 8px;
 }
 
 .action-btn {
     width: 36px;
     height: 36px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 10px;
-
     text-decoration: none;
-
     transition: all .25s ease;
-}
-
-.edit {
-    background: rgba(37,99,235,.12);
-    color: #2563eb;
-}
-
-.toggle {
-    background: rgba(245,158,11,.12);
-    color: #d97706;
-}
-
-.delete {
-    background: rgba(239,68,68,.12);
-    color: #dc2626;
+    border: none;
+    cursor: pointer;
 }
 
 .action-btn:hover {
     transform: translateY(-2px);
 }
 
-.table td:last-child,
-.table th:last-child {
-    text-align: center;
-}
-
-/* =========================
-   FORMULARIOS
-========================= */
-
-.form-page {
-    display: flex;
-    justify-content: center;
-
-    padding-top: 10px;
-}
-
-.form-card {
-    width: 100%;
-    max-width: 650px;
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 30px;
-
-    box-shadow:
-        0 10px 30px rgba(15,23,42,.08);
-
-    border: 1px solid #e2e8f0;
-}
-
-.form-header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 25px;
-}
-
-.form-header h1 {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    margin: 0;
-
-    color: #0f172a;
-
-    font-size: 28px;
-}
-
-.back-link {
+.action-btn.edit {
+    background: rgba(37,99,235,.12);
     color: #2563eb;
-
-    text-decoration: none;
-
-    font-weight: 600;
 }
 
-.back-link:hover {
-    text-decoration: underline;
+.action-btn.delete {
+    background: rgba(239,68,68,.12);
+    color: #dc2626;
 }
 
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-
-    margin-bottom: 8px;
-
-    font-weight: 600;
-
-    color: #334155;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-
-    padding: 12px 14px;
-
-    border: 1px solid #cbd5e1;
-
-    border-radius: 12px;
-
-    box-sizing: border-box;
-
-    transition: .25s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-
-    border-color: #2563eb;
-
-    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
-}
-
-.form-group input:hover,
-.form-group select:hover {
-    border-color: #94a3b8;
-}
-
-.btn-save {
-    width: 100%;
-
-    padding: 14px;
-
-    border: none;
-
-    border-radius: 12px;
-
-    background: #2563eb;
-
-    color: white;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: .25s ease;
-}
-
-.btn-save:hover {
-    transform: translateY(-2px);
-
-    box-shadow: 0 10px 20px rgba(37,99,235,.25);
-}
-
-.btn-save:active {
-    transform: scale(.98);
+.action-btn.toggle {
+    background: rgba(245,158,11,.12);
+    color: #d97706;
 }
 
 /* =========================
-   KPI CARDS
+   STAT GRID (solo layout usuarios)
 ========================= */
+.users-card {
+    display: flex;
+    flex-wrap: wrap; /* 👈 clave para responsive */
+    gap: 16px;
 
-.users-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    margin-bottom: 20px;
+    padding: 16px;
 
-    margin-bottom: 25px;
-}
-
-.stat-card {
-    background: #fff;
-
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    border: 1px solid #e2e8f0;
     border-radius: 18px;
 
-    padding: 24px;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,0.05);
-
-    border: 1px solid #e5e7eb;
-
-    transition: all .25s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 10px 20px rgba(0,0,0,0.08);
-}
-
-.stat-title {
-    display: block;
-
-    color: #64748b;
-
-    font-size: 14px;
-
-    margin-bottom: 10px;
-}
-
-.stat-card h2 {
-    margin: 0;
-
-    font-size: 34px;
-    font-weight: 700;
-
-    color: #0f172a;
-}
-
-@media (max-width: 900px) {
-    .users-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 500px) {
-    .users-stats {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* =========================
-   SEARCH BAR
-========================= */
-
-.search-form {
-    display: flex;
-    gap: 10px;
-
-    margin: 18px 0 22px 0;
-
-    align-items: center;
-    position: relative;
-}
-
-.search-form input {
-    flex: 1;
-
-    padding: 12px 14px;
-
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-
-    outline: none;
-
-    font-size: 14px;
-
-    transition: all .25s ease;
-
-    background: #f8fafc;
-}
-
-.search-form input:focus {
-    border-color: #2563eb;
-    background: #fff;
-
-    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
-}
-
-.search-form button {
-    padding: 12px 18px;
-
-    border: none;
-    border-radius: 12px;
-
-    background: #2563eb;
-    color: white;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: .25s ease;
-}
-
-.search-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(37,99,235,.25);
-}
-
-.search-form button:active {
-    transform: scale(0.98);
-}
-
-.alert {
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.alert-error {
-    background: #ef4444;
-    color: white;
-}
-
-.alert-success {
-    background: #22c55e;
-    color: white;
+    overflow-x: auto;
 }

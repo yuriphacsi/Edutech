@@ -1,9 +1,9 @@
-<div class="users-page">
+<div class="module-page">
 
-    <div class="users-card">
+    <div class="module-card">
 
         <div class="header">
-            <h1>📚 Gestión de Cursos</h1>
+            <h1><i class="fa-solid fa-graduation-cap"></i> Gestión de Cursos</h1>
 
             <a href="/Edutech/admin/cursos/create" class="btn">
                 + Nuevo Curso
@@ -37,26 +37,32 @@
                                 ($curso['asesor_apellido'] ?? '')
                             );
 
+                            if ($asesor === '') {
+                                $asesor = 'Sin asesor';
+                            }
+
                             $totalAlumnos = (int) ($curso['total_alumnos'] ?? 0);
                             $cupoMaximo   = (int) ($curso['cupo_maximo'] ?? 30);
 
                             $estado = (int) ($curso['estado'] ?? 0);
 
                             $ocupacion = ($cupoMaximo > 0)
-                                ? ($totalAlumnos / $cupoMaximo) * 100
+                                ? round(($totalAlumnos / $cupoMaximo) * 100, 1)
                                 : 0;
 
                             $badgeCupo = 'activo';
 
                             if ($ocupacion >= 100) {
-                                $badgeCupo = 'inactivo';
+                                $badgeCupo = 'danger';
                             } elseif ($ocupacion >= 80) {
-                                $badgeCupo = 'asesor';
+                                $badgeCupo = 'warning';
+                            } else {
+                                $badgeCupo = 'success';
                             }
                         ?>
 
                         <tr>
-                            <td><?= $curso['nombre'] ?></td>
+                            <td><?= htmlspecialchars($curso['nombre']) ?></td>
 
                             <td>
                                 <?= $asesor !== '' ? $asesor : 'Sin asesor' ?>
@@ -90,9 +96,11 @@
 
                             <td class="actions">
 
+                                <?php $idCurso = $curso['id_curso'] ?? 0; ?>
+
                                 <a class="action-btn edit"
-                                   href="/Edutech/admin/cursos/edit?id=<?= $curso['id_curso'] ?>">
-                                    ✏️
+                                href="/Edutech/admin/cursos/edit?id=<?= $idCurso ?>">
+                                    <i class="fa-solid fa-pen"></i>
                                 </a>
 
                                 <form method="POST"
@@ -103,7 +111,7 @@
                                     <input type="hidden" name="id" value="<?= $curso['id_curso'] ?>">
 
                                     <button type="submit" class="action-btn delete">
-                                        🗑
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
 
                                 </form>
@@ -117,7 +125,7 @@
                 <?php else: ?>
 
                     <tr>
-                        <td colspan="7">No hay cursos registrados</td>
+                        <td colspan="6">No hay cursos registrados</td>
                     </tr>
 
                 <?php endif; ?>

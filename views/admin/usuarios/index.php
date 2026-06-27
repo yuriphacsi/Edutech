@@ -4,7 +4,7 @@ use App\Helpers\Mask;
 
 ?>
 
-<div class="users-stats">
+<div class="users-card">
 
     <div class="stat-card">
         <span class="stat-title">Total Usuarios</span>
@@ -28,9 +28,9 @@ use App\Helpers\Mask;
 
 </div>
 
-<div class="users-page">
+<div class="module-page">
 
-    <div class="users-card">
+    <div class="module-card">
 
         <div class="header">
             <h1>👥 Gestión de Usuarios</h1>

@@ -1,71 +1,88 @@
-<?php
+<div class="form-page">
 
-use App\Helpers\Session;
+    <div class="form-card">
 
-Session::start();
+        <div class="form-header">
 
-if (!empty($_SESSION['error'])):
-?>
-    <div style="background:#ef4444;color:white;padding:12px;border-radius:8px;margin-bottom:10px;">
-        <?= htmlspecialchars($_SESSION['error']) ?>
-    </div>
-<?php
-    unset($_SESSION['error']);
-endif;
-?>
+            <h1>
+                <i class="fa-solid fa-book-medical"></i>
+                Crear Curso
+            </h1>
 
-<h1>➕ Nuevo Curso</h1>
+            <a href="/Edutech/admin/cursos" class="back-link">
+                ← Volver a Cursos
+            </a>
 
-<a href="/Edutech/admin/cursos">⬅ Volver</a>
+        </div>
 
-<br><br>
-
-<form action="/Edutech/admin/cursos/store" method="POST"
-      style="max-width:500px; background:rgba(255,255,255,0.05); padding:20px; border-radius:12px;">
-
-    <label>Nombre</label><br>
-    <input type="text" name="nombre" required
-           style="width:100%; padding:10px; margin:8px 0;"><br>
-
-    <label>Descripción</label><br>
-    <textarea name="descripcion" rows="4"
-              style="width:100%; padding:10px; margin:8px 0;"></textarea><br>
-
-    <label>Nivel</label><br>
-    <select name="nivel" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="Basico">Básico</option>
-        <option value="Intermedio">Intermedio</option>
-        <option value="Avanzado">Avanzado</option>
-    </select><br>
-
-    <!-- 👨‍🏫 ASESORES -->
-    <label>Asesor</label><br>
-    <select name="id_asesor" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="">Sin asesor</option>
-
-        <?php if (!empty($asesores)): ?>
-            <?php foreach ($asesores as $asesor): ?>
-                <option value="<?= $asesor['id_asesor'] ?>">
-                    <?= $asesor['nombres'] . ' ' . $asesor['apellidos'] ?>
-                </option>
-            <?php endforeach; ?>
+        <?php if (!empty($_SESSION['error'])): ?>
+            <div class="alert alert-error">
+                <?= $_SESSION['error']; ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
-    </select><br>
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?= $_SESSION['success']; ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
 
-    <label>Cupo máximo</label><br>
-    <input type="number" name="cupo_maximo" value="30"
-           style="width:100%; padding:10px; margin:8px 0;"><br>
+        <form action="/Edutech/admin/cursos/store"
+              method="POST"
+              enctype="multipart/form-data">
 
-    <label>Estado</label><br>
-    <select name="estado" style="width:100%; padding:10px; margin:8px 0;">
-        <option value="1">Activo</option>
-        <option value="0">Inactivo</option>
-    </select><br><br>
+            <div class="form-group">
+                <label>Nombre del curso</label>
+                <input type="text" name="nombre" required>
+            </div>
 
-    <button type="submit"
-            style="padding:10px 15px; background:#2563eb; color:white; border:none; border-radius:8px;">
-        Guardar Curso
-    </button>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea name="descripcion" required></textarea>
+            </div>
 
-</form>
+            <div class="form-group">
+                <label>Nivel</label>
+                <select name="nivel" required>
+                    <option value="">Seleccione nivel</option>
+                    <option value="Basico">Básico</option>
+                    <option value="Intermedio">Intermedio</option>
+                    <option value="Avanzado">Avanzado</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Asesor</label>
+                <select name="id_asesor" required>
+                    <option value="">Seleccione asesor</option>
+
+                    <?php foreach ($asesores as $a): ?>
+                        <option value="<?= $a['id_asesor'] ?>">
+                            <?= $a['nombres'] . ' ' . $a['apellidos'] ?>
+                        </option>
+                    <?php endforeach; ?>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cupo máximo</label>
+                <input type="number" name="cupo_maximo" value="30" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label>Imagen del curso</label>
+                <input type="file" name="imagen" accept="image/*">
+            </div>
+
+            <button class="btn-save" type="submit">
+                Crear Curso
+            </button>
+
+        </form>
+
+    </div>
+
+</div>

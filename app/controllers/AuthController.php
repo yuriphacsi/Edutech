@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\Usuario;
 use App\Helpers\Session;
+use App\Models\Alumno;
 
 class AuthController extends Controller
 {
@@ -97,13 +98,23 @@ class AuthController extends Controller
             PASSWORD_DEFAULT
         );
 
-        $usuarioModel->create([
+        $idUsuario = $usuarioModel->create([
             'id_rol' => 3,
             'nombres' => $nombres,
             'apellidos' => $apellidos,
             'correo' => $correo,
             'password' => $passwordHash,
             'estado' => 1
+        ]);
+
+        $alumnoModel = new Alumno();
+
+        $alumnoModel->create([
+            'id_usuario' => $idUsuario,
+            'codigo_estudiante' => null,
+            'institucion' => null,
+            'carrera' => null,
+            'ciclo' => null
         ]);
 
         header("Location: /Edutech/login?success=1");
