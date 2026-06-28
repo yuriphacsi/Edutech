@@ -34,11 +34,5 @@
     <main class="public-main">
         <?= $content ?>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="public-footer">
-        © <?= date('Y') ?> EduTech - Plataforma Educativa
-    </footer>
-
 </body>
 </html>

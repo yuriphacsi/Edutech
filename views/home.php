@@ -19,31 +19,24 @@
 }
 .carousel-btn.prev { left: 12px; }
 .carousel-btn.next { right: 12px; }
-.carousel-dots {
-    position: absolute; bottom: 14px; left: 50%;
-    transform: translateX(-50%); display: flex; gap: 8px;
-}
-.carousel-dots .dot {
-    width: 11px; height: 11px; border-radius: 50%;
-    background: rgba(255,255,255,0.5); border: none; cursor: pointer;
-}
-.carousel-dots .dot.active { background: #fff; }
 </style>
 
 <section class="carousel-section">
     <div class="carousel-wrapper" id="carouselWrapper">
         <div class="carousel-track" id="carouselTrack">
-            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/acuña.png');"></div>
-            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/keiko.png');"></div>
-            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/jp.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/oratoria.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/nutricion.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/gastronomia.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/electricidad.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/economia.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/cirugia_plastica.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/anatomia.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/agricultura.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/administrador_chongos.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/Edutech/public/img/administracion_bancaria.png');"></div>
         </div>
         <button class="carousel-btn prev" onclick="carouselMove(-1)">&#8249;</button>
         <button class="carousel-btn next" onclick="carouselMove(1)">&#8250;</button>
-        <div class="carousel-dots">
-            <button class="dot active" onclick="carouselGoTo(0)"></button>
-            <button class="dot" onclick="carouselGoTo(1)"></button>
-            <button class="dot" onclick="carouselGoTo(2)"></button>
-        </div>
     </div>
 </section>
 
@@ -53,7 +46,7 @@
     const track = document.getElementById('carouselTrack');
     const wrapper = document.getElementById('carouselWrapper');
     const dots = document.querySelectorAll('.carousel-dots .dot');
-    const total = 3;
+    const total = 10;
 
     window.carouselGoTo = function(i) {
         cur = i;
@@ -117,7 +110,7 @@
 
             <div class="mockup-glow"></div>
 
-            <img src="/Edutech/public/img/acuña.png" alt="EduTech Dashboard">
+            <img src="/Edutech/public/img/dashboard-preview.png" alt="EduTech Dashboard">
 
         </div>
 
@@ -167,7 +160,7 @@
     </div>
 
     <div class="info-image">
-        <img src="/Edutech/public/img/acuña.png" alt="Vista EduTech">
+        <img src="/Edutech/public/img/dashboard-preview.png" alt="Vista EduTech">
     </div>
 
 </section>
@@ -342,7 +335,7 @@
 
             <div class="image-glow"></div>
 
-            <img src="/Edutech/public/img/acuña.png" alt="Dashboard Admin">
+            <img src="/Edutech/public/img/admin-preview.png" alt="Dashboard Admin">
 
         </div>
 

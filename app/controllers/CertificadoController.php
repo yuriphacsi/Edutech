@@ -97,4 +97,19 @@ class CertificadoController extends Controller
     public function show(){}
 
     public function download(){}
+
+    public function cursos()
+    {
+        $idAlumno = $_GET['id_alumno'] ?? 0;
+
+        $inscripcion = new Inscripcion();
+
+        header('Content-Type: application/json');
+
+        echo json_encode(
+            $inscripcion->getCursosByAlumno($idAlumno)
+        );
+
+        exit;
+    }
 }

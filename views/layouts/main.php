@@ -53,7 +53,10 @@
     <script src="/Edutech/public/js/sidebar.js"></script>
     <script src="/Edutech/public/js/notifications.js"></script>
 
-    <!-- JS POR MÓDULO (opcional futuro) -->
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JS POR MÓDULO -->
     <?php if ($module): ?>
         <script src="/Edutech/public/js/modules/<?= $module ?>.js"></script>
     <?php endif; ?>

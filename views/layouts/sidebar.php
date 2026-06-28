@@ -47,7 +47,7 @@ $nombreUsuario =
             <a href="/Edutech/admin/cursos"
                 data-tooltip="Cursos"
                 class="<?= str_contains($current, '/cursos') ? 'active' : '' ?>">
-                <i class="fa-solid fa-book"></i>
+                <i class="fa-solid fa-chalkboard-user"></i>
                 <span class="menu-text">Cursos</span>
             </a>
 
@@ -77,7 +77,7 @@ $nombreUsuario =
                 data-tooltip="Certificados"
                 class="<?= $module == 'certificados' ? 'active' : '' ?>">
 
-                <i class="fa-solid fa-certificate"></i>
+                <i class="fa-solid fa-graduation-cap"></i>
 
                 <span class="menu-text">
                         Certificados
@@ -93,27 +93,119 @@ $nombreUsuario =
         <?php endif; ?>
 
         <?php if ($rol == 2): ?>
-            <a href="/Edutech/asesor">
+
+            <div class="menu-section" data-tooltip="General">
+                GENERAL
+            </div>
+
+            <a href="/Edutech/asesor"
+                data-tooltip="Dashboard"
+                class="<?= str_contains($current, '/asesor') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
 
-            <a href="/Edutech/cursos">
-                <i class="fa-solid fa-book"></i>
+            <div class="menu-section" data-tooltip="Gestión">
+                GESTIÓN
+            </div>
+
+            <a href="/Edutech/cursos"
+                data-tooltip="Mis Cursos"
+                class="<?= str_contains($current, '/cursos') ? 'active' : '' ?>">
+                <i class="fa-solid fa-chalkboard-user"></i>
                 <span class="menu-text">Mis Cursos</span>
             </a>
+
+            <a href="#"
+                data-tooltip="Asistencias"
+                class="">
+                <i class="fa-solid fa-user-check"></i>
+                <span class="menu-text">Asistencias</span>
+            </a>
+
+            <a href="#"
+                data-tooltip="Notas"
+                class="">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span class="menu-text">Notas</span>
+            </a>
+
+            <div class="menu-section" data-tooltip="Análisis">
+                ANÁLISIS
+            </div>
+
+            <a href="#"
+                data-tooltip="Reportes"
+                class="">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="menu-text">Reportes</span>
+            </a>
+
         <?php endif; ?>
 
         <?php if ($rol == 3): ?>
-            <a href="/Edutech/alumno">
+
+            <div class="menu-section" data-tooltip="General">
+                GENERAL
+            </div>
+
+            <a href="/Edutech/alumno"
+                data-tooltip="Dashboard"
+                class="<?= str_contains($current, '/alumno') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
 
-            <a href="/Edutech/mis-cursos">
-                <i class="fa-solid fa-book"></i>
+            <div class="menu-section" data-tooltip="Académico">
+                ACADÉMICO
+            </div>
+
+            <a href="/Edutech/mis-cursos"
+                data-tooltip="Mis Cursos"
+                class="<?= str_contains($current, '/mis-cursos') ? 'active' : '' ?>">
+                <i class="fa-solid fa-graduation-cap"></i>
                 <span class="menu-text">Mis Cursos</span>
             </a>
+
+            <a href="#"
+                data-tooltip="Pagos"
+                class="">
+                <i class="fa-solid fa-credit-card"></i>
+                <span class="menu-text">Mis Pagos</span>
+            </a>
+
+            <a href="#"
+                data-tooltip="Certificados"
+                class="">
+                <i class="fa-solid fa-certificate"></i>
+                <span class="menu-text">Mis Certificados</span>
+            </a>
+
+            <div class="menu-section" data-tooltip="Seguimiento">
+                SEGUIMIENTO
+            </div>
+
+            <a href="#"
+                data-tooltip="Notas"
+                class="">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="menu-text">Mis Notas</span>
+            </a>
+
+            <a href="#"
+                data-tooltip="Asistencia"
+                class="">
+                <i class="fa-solid fa-user-check"></i>
+                <span class="menu-text">Mi Asistencia</span>
+            </a>
+
+            <a href="#"
+                data-tooltip="Biblioteca"
+                class="">
+                <i class="fa-solid fa-book-open"></i>
+                <span class="menu-text">Biblioteca</span>
+            </a>
+
         <?php endif; ?>
     </div>
 

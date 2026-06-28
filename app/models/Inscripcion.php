@@ -16,20 +16,22 @@ class Inscripcion extends Model
     public function existsAlumnoCurso(int $idAlumno, int $idCurso): bool
     {
         $sql = "
-            SELECT COUNT(*) as total
-            FROM inscripciones
-            WHERE id_alumno = :alumno
-            AND id_curso = :curso
-            AND estado = 1
+            SELECT COUNT(*)
+            FROM inscripciones i
+            INNER JOIN alumnos a
+                ON a.id_usuario = i.id_usuario
+            WHERE a.id_alumno = :id_alumno
+            AND i.id_curso = :id_curso
         ";
 
         $stmt = $this->db->prepare($sql);
+
         $stmt->execute([
-            'alumno' => $idAlumno,
-            'curso' => $idCurso
+            'id_alumno' => $idAlumno,
+            'id_curso' => $idCurso
         ]);
 
-        return (int)$stmt->fetch()['total'] > 0;
+        return $stmt->fetchColumn() > 0;
     }
 
     /**
@@ -38,11 +40,16 @@ class Inscripcion extends Model
     public function getCursosByAlumno(int $idAlumno): array
     {
         $sql = "
-            SELECT c.id_curso, c.nombre
+            SELECT
+                c.id_curso,
+                c.nombre
             FROM inscripciones i
-            INNER JOIN cursos c ON c.id_curso = i.id_curso
-            WHERE i.id_alumno = :id_alumno
-              AND i.estado = 1
+            INNER JOIN alumnos a
+                ON a.id_usuario = i.id_usuario
+            INNER JOIN cursos c
+                ON c.id_curso = i.id_curso
+            WHERE a.id_alumno = :id_alumno
+            ORDER BY c.nombre
         ";
 
         $stmt = $this->db->prepare($sql);
@@ -50,7 +57,7 @@ class Inscripcion extends Model
             'id_alumno' => $idAlumno
         ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**

@@ -171,26 +171,11 @@
         </h3>
 
         <canvas id="usersChart"></canvas>
+
     </div>
 
     <script>
-    const ctx = document.getElementById('usersChart');
-
-    const data = <?= json_encode($usuariosUltimos12Meses) ?>;
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.map(item => item.mes),
-            datasets: [{
-                label: 'Usuarios',
-                data: data.map(item => item.total),
-                borderColor: '#2563eb',
-                tension: 0.4,
-                fill: true
-            }]
-        }
-    });
+        window.usuariosUltimos12Meses = <?= json_encode($usuariosUltimos12Meses) ?>;
     </script>
 
 </div>

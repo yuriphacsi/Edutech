@@ -65,4 +65,4 @@ $router->get('/admin/certificados/pdf', 'CertificadoController@pdf');
 /* =========================
    TEST
 ========================= */
-$router->get('/test', 'TestController@index');
+$router->get('/admin/certificados/cursos', 'CertificadoController@cursos');

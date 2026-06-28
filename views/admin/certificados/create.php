@@ -26,29 +26,37 @@
             <!-- ALUMNO -->
             <div class="form-group">
                 <label>Alumno</label>
-                <select name="id_alumno" required>
+
+                <select name="id_alumno" id="id_alumno" required>
+
                     <option value="">Seleccionar alumno</option>
 
                     <?php foreach ($alumnos as $a): ?>
                         <option value="<?= $a['id_alumno'] ?>">
-                            <?= $a['nombres'] . ' ' . $a['apellidos'] ?>
+                            <?= $a['nombres'] ?> <?= $a['apellidos'] ?>
                         </option>
                     <?php endforeach; ?>
+
                 </select>
             </div>
 
             <!-- CURSO -->
             <div class="form-group">
                 <label>Curso</label>
-                <select name="id_curso" required>
-                    <option value="">Seleccionar curso</option>
 
-                    <?php foreach ($cursos as $c): ?>
-                        <option value="<?= $c['id_curso'] ?>">
-                            <?= $c['nombre'] ?>
-                        </option>
-                    <?php endforeach; ?>
+                <select
+                    name="id_curso"
+                    id="id_curso"
+                    required
+                    disabled
+                >
+
+                    <option value="">
+                        Primero seleccione un alumno
+                    </option>
+
                 </select>
+
             </div>
 
             <!-- ASESOR -->
@@ -86,3 +94,52 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const alumno = document.getElementById("id_alumno");
+    const curso = document.getElementById("id_curso");
+
+    alumno.addEventListener("change", () => {
+
+        const id = alumno.value;
+
+        curso.innerHTML = "";
+
+        if (!id) {
+
+            curso.disabled = true;
+
+            curso.innerHTML =
+                '<option>Primero seleccione un alumno</option>';
+
+            return;
+        }
+
+        fetch(`/Edutech/admin/certificados/cursos?id_alumno=${id}`)
+
+            .then(r => r.json())
+
+            .then(data => {
+
+                curso.disabled = false;
+
+                curso.innerHTML =
+                    '<option value="">Seleccione un curso</option>';
+
+                data.forEach(c => {
+
+                    curso.innerHTML +=
+                        `<option value="${c.id_curso}">
+                            ${c.nombre}
+                        </option>`;
+
+                });
+
+            });
+
+    });
+
+});
+</script>
