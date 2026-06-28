@@ -52,4 +52,59 @@ class Alumno extends Model
         $stmt->execute([':id_usuario' => $id_usuario]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getCursosDisponibles(int $id_usuario): array
+    {
+        $sql = "
+            SELECT 
+                c.id_curso,
+                c.nombre,
+                c.descripcion,
+                c.nivel,
+                c.imagen
+            FROM cursos c
+            WHERE c.estado = 1
+            AND c.id_curso NOT IN (
+                SELECT i.id_curso
+                FROM inscripciones i
+                WHERE i.id_usuario = :id_usuario
+            )
+            ORDER BY c.id_curso DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id_usuario' => $id_usuario]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function inscribir(int $id_usuario, int $id_curso): bool
+    {
+        // evitar duplicados
+        $check = $this->db->prepare("
+            SELECT id_inscripcion 
+            FROM inscripciones 
+            WHERE id_usuario = :u AND id_curso = :c
+        ");
+
+        $check->execute([
+            ':u' => $id_usuario,
+            ':c' => $id_curso
+        ]);
+
+        if ($check->fetch()) {
+            return false;
+        }
+
+        // insertar inscripción
+        $stmt = $this->db->prepare("
+            INSERT INTO inscripciones (id_usuario, id_curso, created_at)
+            VALUES (:u, :c, NOW())
+        ");
+
+        return $stmt->execute([
+            ':u' => $id_usuario,
+            ':c' => $id_curso
+        ]);
+    }
 }

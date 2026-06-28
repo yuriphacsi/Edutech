@@ -66,3 +66,4 @@ $router->get('/admin/certificados/pdf', 'CertificadoController@pdf');
    TEST
 ========================= */
 $router->get('/admin/certificados/cursos', 'CertificadoController@cursos');
+$router->post('/alumno/inscribirse', 'AlumnoController@inscribirse')->middleware('role:3');
