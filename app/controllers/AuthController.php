@@ -50,71 +50,51 @@ class AuthController extends Controller
         $nombres = trim($_POST['nombres'] ?? '');
         $apellidos = trim($_POST['apellidos'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
+
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-
-            $this->view(
-                'auth/register',
-                [
-                    'error' => 'Correo electrónico inválido'
-                ],
-                'layouts/auth'
-            );
-
+            $this->view('auth/register', [
+                'error' => 'Correo electrónico inválido'
+            ], 'layouts/auth');
             return;
         }
+
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
 
         $usuarioModel = new Usuario();
 
         if ($password !== $confirmPassword) {
-
-            $this->view(
-                'auth/register',
-                [
-                    'error' => 'Las contraseñas no coinciden'
-                ],
-                'layouts/auth'
-            );
-
+            $this->view('auth/register', [
+                'error' => 'Las contraseñas no coinciden'
+            ], 'layouts/auth');
             return;
         }
 
         if ($usuarioModel->findByEmail($correo)) {
-
-            $this->view(
-                'auth/register',
-                [
-                    'error' => 'El correo ya está registrado'
-                ],
-                'layouts/auth'
-            );
-
+            $this->view('auth/register', [
+                'error' => 'El correo ya está registrado'
+            ], 'layouts/auth');
             return;
         }
 
-        $passwordHash = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
         $idUsuario = $usuarioModel->create([
-            'id_rol' => 3,
-            'nombres' => $nombres,
+            'id_rol'    => 3,
+            'nombres'   => $nombres,
             'apellidos' => $apellidos,
-            'correo' => $correo,
-            'password' => $passwordHash,
-            'estado' => 1
+            'correo'    => $correo,
+            'password'  => $passwordHash,
+            'estado'    => 1
         ]);
 
         $alumnoModel = new Alumno();
-
         $alumnoModel->create([
-            'id_usuario' => $idUsuario,
+            'id_usuario'        => $idUsuario,
             'codigo_estudiante' => null,
-            'institucion' => null,
-            'carrera' => null,
-            'ciclo' => null
+            'institucion'       => null,
+            'carrera'           => null,
+            'ciclo'             => null
         ]);
 
         header("Location: /Edutech/login?success=1");
@@ -125,7 +105,7 @@ class AuthController extends Controller
     {
         Session::start();
 
-        $correo = $_POST['correo'] ?? '';
+        $correo   = $_POST['correo'] ?? '';
         $password = $_POST['password'] ?? '';
 
         $usuarioModel = new Usuario();
@@ -152,11 +132,12 @@ class AuthController extends Controller
             return;
         }
 
+        // ✅ FIX: usar id_usuario en lugar de id
         Session::set('user', [
-            'id' => $user['id'],
-            'nombres' => $user['nombres'],
+            'id'        => $user['id_usuario'],
+            'nombres'   => $user['nombres'],
             'apellidos' => $user['apellidos'],
-            'rol' => $user['id_rol']
+            'rol'       => $user['id_rol']
         ]);
 
         $rol = $user['id_rol'];

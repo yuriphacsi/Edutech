@@ -31,4 +31,4 @@ class AuthMiddleware
             die("Acceso denegado");
         }
     }
-}
+} 

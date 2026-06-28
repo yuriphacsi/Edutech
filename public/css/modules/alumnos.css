@@ -1,0 +1,601 @@
+/* ============================================================
+   ALUMNO DASHBOARD — EduTech
+   Estilo: Marketplace moderno con filtros + cards de cursos
+   ============================================================ */
+
+/* ---------- Layout principal ---------- */
+.alumno-layout {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+    min-height: calc(100vh - 70px);
+    background: #f4f6fb;
+}
+
+/* ---------- Panel de filtros (izquierda) ---------- */
+.filtros-panel {
+    width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.filtros-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.filtros-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filtros-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.filtros-limpiar {
+    font-size: 13px;
+    color: #6c63ff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-weight: 600;
+    padding: 0;
+}
+
+.filtros-limpiar:hover {
+    text-decoration: underline;
+}
+
+/* Grupos de filtro */
+.filtro-grupo {
+    margin-bottom: 20px;
+}
+
+.filtro-grupo label.filtro-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8a8fa8;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.filtro-select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid #e8eaf0;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #3a3a5c;
+    background: #f9fafb;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238a8fa8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filtro-select:focus {
+    outline: none;
+    border-color: #6c63ff;
+}
+
+/* Precio range */
+.precio-range-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.precio-valor {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6c63ff;
+}
+
+.filtro-range {
+    width: 100%;
+    accent-color: #6c63ff;
+    cursor: pointer;
+}
+
+.precio-limites {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8a8fa8;
+    margin-top: 4px;
+}
+
+/* Rating */
+.rating-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rating-opcion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #3a3a5c;
+    cursor: pointer;
+}
+
+.rating-opcion input[type="radio"] {
+    accent-color: #6c63ff;
+}
+
+.stars {
+    color: #f59e0b;
+    font-size: 12px;
+}
+
+/* Disponibilidad */
+.disponibilidad-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.disp-btn {
+    padding: 7px 10px;
+    border: 1.5px solid #e8eaf0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #5a5a7a;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.disp-btn:hover,
+.disp-btn.active {
+    background: #6c63ff;
+    border-color: #6c63ff;
+    color: #fff;
+}
+
+/* Card CTA — ¿Quieres ser tutor? */
+.cta-card {
+    background: linear-gradient(135deg, #6c63ff 0%, #a855f7 100%);
+    border-radius: 16px;
+    padding: 22px;
+    color: #fff;
+}
+
+.cta-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.cta-card p {
+    font-size: 13px;
+    opacity: 0.9;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.cta-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    color: #6c63ff;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+
+.cta-btn:hover {
+    opacity: 0.9;
+}
+
+/* ---------- Área principal (derecha) ---------- */
+.cursos-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.cursos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.cursos-header-text h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 4px 0;
+}
+
+.cursos-header-text p {
+    font-size: 13px;
+    color: #8a8fa8;
+    margin: 0;
+}
+
+.vista-toggle {
+    display: flex;
+    gap: 6px;
+    background: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.vista-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 7px;
+    background: none;
+    color: #8a8fa8;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.vista-btn.active,
+.vista-btn:hover {
+    background: #6c63ff;
+    color: #fff;
+}
+
+/* ---------- Grid de cards ---------- */
+.cursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+/* ---------- Card de curso ---------- */
+.curso-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+}
+
+.curso-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(108,99,255,0.15);
+}
+
+/* Imagen + rating */
+.curso-img-wrap {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e0ddff 0%, #c4b5fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.curso-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.curso-img-placeholder {
+    font-size: 48px;
+    opacity: 0.5;
+}
+
+.curso-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.curso-rating .star {
+    color: #f59e0b;
+}
+
+/* Cuerpo de la card */
+.curso-card-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.curso-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* Colores de badges por materia */
+.badge-matematicas { background: #dbeafe; color: #1d4ed8; }
+.badge-programacion { background: #dcfce7; color: #15803d; }
+.badge-logica { background: #fef3c7; color: #b45309; }
+.badge-diseno { background: #fce7f3; color: #be185d; }
+.badge-literatura { background: #f3e8ff; color: #7c3aed; }
+.badge-default { background: #f1f5f9; color: #475569; }
+
+.curso-nombre {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+}
+
+.curso-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    flex: 1;
+}
+
+/* Progreso */
+.curso-progreso-wrap {
+    margin-bottom: 12px;
+}
+
+.curso-progreso-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8a8fa8;
+    margin-bottom: 5px;
+}
+
+.curso-progreso-bar {
+    height: 5px;
+    background: #f0f0f7;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.curso-progreso-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6c63ff, #a855f7);
+    border-radius: 99px;
+    transition: width 0.6s ease;
+}
+
+/* Footer card: precio + botón */
+.curso-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-top: 1px solid #f0f0f7;
+}
+
+.curso-precio {
+    font-size: 13px;
+    color: #8a8fa8;
+}
+
+.curso-precio span {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a1a2e;
+}
+
+.btn-entrar {
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #6c63ff, #a855f7);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+}
+
+.btn-entrar:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+    color: #fff;
+}
+
+/* ---------- Book Session botón (sidebar inferior) ---------- */
+.book-session-wrap {
+    padding: 16px;
+}
+
+.btn-book-session {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6c63ff, #a855f7);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.btn-book-session:hover {
+    opacity: 0.9;
+    color: #fff;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .alumno-layout {
+        flex-direction: column;
+    }
+    .filtros-panel {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .cursos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Badge de nivel (sobre la imagen) ---------- */
+.curso-nivel-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+}
+.nivel-basico     { background: #dcfce7; color: #15803d; }
+.nivel-intermedio { background: #fef3c7; color: #b45309; }
+.nivel-avanzado   { background: #fee2e2; color: #b91c1c; }
+
+/* Nivel en el footer de la card */
+.curso-nivel-txt {
+    font-size: 12px;
+    color: #8a8fa8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ---------- Estado vacío ---------- */
+.cursos-vacio {
+    text-align: center;
+    padding: 80px 20px;
+    color: #8a8fa8;
+}
+.cursos-vacio .vacio-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+.cursos-vacio h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3a3a5c;
+    margin: 0 0 8px 0;
+}
+.cursos-vacio p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ---------- Vista lista ---------- */
+.cursos-lista {
+    grid-template-columns: 1fr !important;
+}
+.cursos-lista .curso-card {
+    flex-direction: row;
+    max-height: 140px;
+}
+.curso-img-wrap {
+    position: relative;
+    height: 130px;
+}
+.cursos-lista .curso-card-body {
+    padding: 12px 16px;
+}
+.cursos-lista .curso-card-footer {
+    flex-direction: column;
+    justify-content: center;
+    border-top: none;
+    border-left: 1px solid #f0f0f7;
+    padding: 12px 16px;
+    min-width: 130px;
+    gap: 10px;
+}
+
+.curso-img-wrap img {
+    object-fit: cover;
+    object-position: center center;
+}
+
+
+
+.curso-nivel-txt { 
+    font-size: 11px; 
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+}
+.curso-nivel-txt.nivel-basico     { background: #dcfce7; color: #15803d; }
+.curso-nivel-txt.nivel-intermedio { background: #fef3c7; color: #b45309; }
+.curso-nivel-txt.nivel-avanzado   { background: #fee2e2; color: #b91c1c; }
+
+/* Modal de imagen */
+.modal-img {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.modal-img.open {
+    display: flex;
+}
+.modal-img img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.modal-img .cerrar {
+    position: absolute;
+    top: 20px; right: 30px;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+    line-height: 1;
+}
+.curso-img-wrap img {
+    cursor: zoom-in;
+}
