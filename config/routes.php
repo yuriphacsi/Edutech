@@ -47,6 +47,22 @@ $router->post('/admin/cursos/update', 'CursoController@update')->middleware('rol
 $router->post('/admin/cursos/delete', 'CursoController@delete')->middleware('role:1');
 
 /* =========================
+   📚 CERTIFICADOS (ADMIN ONLY)
+========================= */
+
+$router->get('/admin/certificados', 'CertificadoController@index');
+
+$router->get('/admin/certificados/create', 'CertificadoController@create');
+$router->post('/admin/certificados/store', 'CertificadoController@store');
+
+$router->get('/admin/certificados/edit', 'CertificadoController@edit');
+$router->post('/admin/certificados/update', 'CertificadoController@update');
+
+$router->post('/admin/certificados/delete', 'CertificadoController@delete');
+
+$router->get('/admin/certificados/ver', 'CertificadoController@ver');
+$router->get('/admin/certificados/pdf', 'CertificadoController@pdf');
+/* =========================
    TEST
 ========================= */
 $router->get('/test', 'TestController@index');

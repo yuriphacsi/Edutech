@@ -73,11 +73,15 @@ $nombreUsuario =
                 ANÁLISIS
             </div>
 
-            <a href="#"
+            <a href="/Edutech/admin/certificados"
                 data-tooltip="Certificados"
-                class="<?= str_contains($current, '/certificados') ? 'active' : '' ?>">
+                class="<?= $module == 'certificados' ? 'active' : '' ?>">
+
                 <i class="fa-solid fa-certificate"></i>
-                <span class="menu-text">Certificados</span>
+
+                <span class="menu-text">
+                        Certificados
+                </span>
             </a>
 
             <a href="#"

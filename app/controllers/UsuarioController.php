@@ -33,7 +33,7 @@ class UsuarioController extends Controller
             'usuarios' => $usuarios,
             'stats' => $stats,
             'q' => $q,
-            'moduleCss' => ['usuarios.css']
+            'module' => 'usuarios'
         ], 'layouts/main');
     }
 
@@ -106,7 +106,7 @@ class UsuarioController extends Controller
 
     public function update()
     {
-        $id = $_POST['id'] ?? null;
+        $id = $_POST['id_usuario'] ?? null;
 
         if (!$id) {
             die("ID no válido");
