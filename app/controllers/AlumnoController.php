@@ -47,9 +47,15 @@ class AlumnoController extends Controller
             exit;
         }
 
-        $alumnoModel = new Alumno();
+        $inscripcion = new \App\Models\Inscripcion();
 
-        $ok = $alumnoModel->inscribir($id_usuario, $curso_id);
+        // evitar duplicados
+        if ($inscripcion->existsUsuarioCurso($id_usuario, $curso_id)) {
+            header("Location: /Edutech/alumno");
+            exit;
+        }
+
+        $inscripcion->inscribir($id_usuario, $curso_id);
 
         header("Location: /Edutech/alumno");
         exit;

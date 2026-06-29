@@ -40,6 +40,7 @@ $router->get('/admin/cursos', 'CursoController@index')->middleware('role:1');
 
 $router->get('/admin/cursos/create', 'CursoController@create')->middleware('role:1');
 $router->post('/admin/cursos/store', 'CursoController@store')->middleware('role:1');
+$router->get('/admin/cursos/alumnos', 'CursoController@alumnos');
 
 $router->get('/admin/cursos/edit', 'CursoController@edit')->middleware('role:1');
 $router->post('/admin/cursos/update', 'CursoController@update')->middleware('role:1');
@@ -60,7 +61,7 @@ $router->post('/admin/certificados/update', 'CertificadoController@update');
 
 $router->post('/admin/certificados/delete', 'CertificadoController@delete');
 
-$router->get('/admin/certificados/ver', 'CertificadoController@ver');
+$router->get('/admin/certificados/show', 'CertificadoController@show');
 $router->get('/admin/certificados/pdf', 'CertificadoController@pdf');
 /* =========================
    TEST

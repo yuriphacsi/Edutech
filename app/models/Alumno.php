@@ -107,4 +107,19 @@ class Alumno extends Model
             ':c' => $id_curso
         ]);
     }
+
+    public function getUsuarioByAlumno(int $id_alumno): ?int
+    {
+        $sql = "
+            SELECT id_usuario
+            FROM alumnos
+            WHERE id_alumno = :id_alumno
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id_alumno' => $id_alumno]);
+
+        return $stmt->fetchColumn() ?: null;
+    }
 }

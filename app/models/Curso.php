@@ -81,4 +81,49 @@ class Curso extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function listWithAlumnos()
+    {
+        $sql = "
+            SELECT 
+                c.id_curso,
+                c.nombre,
+                c.nivel,
+                c.cupo_maximo,
+                c.estado,
+                COUNT(i.id_inscripcion) AS total_alumnos
+            FROM cursos c
+            LEFT JOIN inscripciones i 
+                ON i.id_curso = c.id_curso
+            GROUP BY 
+                c.id_curso,
+                c.nombre,
+                c.nivel,
+                c.cupo_maximo,
+                c.estado
+        ";
+
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAlumnosByCurso(int $idCurso): array
+    {
+        $sql = "
+            SELECT 
+                i.id_inscripcion,
+                i.created_at,
+                u.nombres,
+                u.apellidos
+            FROM inscripciones i
+            INNER JOIN usuarios u 
+                ON u.id_usuario = i.id_usuario
+            WHERE i.id_curso = :id
+            ORDER BY i.created_at DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['id' => $idCurso]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

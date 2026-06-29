@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use PDO;
 
 class Usuario extends Model
 {
@@ -117,7 +118,7 @@ class Usuario extends Model
 
     public function getLastLogins(int $limit = 5): array
     {
-        $stmt = $this->db->prepare("
+        $sql = "
             SELECT
                 CONCAT(nombres, ' ', apellidos) AS nombre_completo,
                 last_login
@@ -125,11 +126,11 @@ class Usuario extends Model
             WHERE last_login IS NOT NULL
             ORDER BY last_login DESC
             LIMIT ?
-        ");
+        ";
 
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(1, $limit, \PDO::PARAM_INT);
         $stmt->execute();
-
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -163,5 +164,22 @@ class Usuario extends Model
         ]);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getAlumnos(): array
+    {
+        $sql = "
+            SELECT
+                a.id_alumno,
+                a.id_usuario,
+                u.nombres,
+                u.apellidos
+            FROM alumnos a
+            INNER JOIN usuarios u
+                ON u.id_usuario = a.id_usuario
+            ORDER BY u.nombres
+        ";
+
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }

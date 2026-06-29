@@ -57,7 +57,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- JS POR MÓDULO -->
-    <?php if ($module): ?>
+    <?php
+    $jsPath = $_SERVER['DOCUMENT_ROOT'] . "/Edutech/public/js/modules/" . $module . ".js";
+    if ($module && file_exists($jsPath)):
+    ?>
         <script src="/Edutech/public/js/modules/<?= $module ?>.js"></script>
     <?php endif; ?>
 

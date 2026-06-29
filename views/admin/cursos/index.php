@@ -65,7 +65,7 @@
                             <td><?= htmlspecialchars($curso['nombre']) ?></td>
 
                             <td>
-                                <?= $asesor !== '' ? $asesor : 'Sin asesor' ?>
+                                <?= $asesor ?>
                             </td>
 
                             <td>
@@ -81,7 +81,7 @@
                             </td>
 
                             <td>
-                                <span class="badge <?= $badgeCupo ?>">
+                                <span class="badge <?= $badgeCupo = 'cupo'; ?>">
                                     <?= $totalAlumnos ?> / <?= $cupoMaximo ?>
                                 </span>
                             </td>
@@ -115,6 +115,11 @@
                                     </button>
 
                                 </form>
+
+                                <a class="action-btn"
+                                    href="/Edutech/admin/cursos/alumnos?id=<?= $curso['id_curso'] ?>">
+                                    <i class="fa-solid fa-users"></i>
+                                </a>
 
                             </td>
 

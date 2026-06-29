@@ -92,20 +92,24 @@
 
                             <td class="actions">
 
-                                <a class="action-btn view"
-                                   href="/Edutech/admin/certificados/show?id=<?= $c['id_certificado'] ?>">
-                                    👁
+                                <a class="action-btn view" title="Ver detalle"
+                                href="/Edutech/admin/certificados/show?id=<?= $c['id_certificado'] ?>">
+                                    <i class="fa-solid fa-eye"></i>
                                 </a>
 
-                                <a class="action-btn pdf"
-                                   href="/Edutech/admin/certificados/pdf?id=<?= $c['id_certificado'] ?>"
-                                   target="_blank">
-                                    📄
+                                <a class="action-btn pdf" title="Descargar PDF"
+                                href="/Edutech/admin/certificados/pdf?id=<?= $c['id_certificado'] ?>" target="_blank">
+                                    <i class="fa-solid fa-file-pdf"></i>
                                 </a>
 
-                                <a class="action-btn download"
-                                   href="/Edutech/admin/certificados/download?id=<?= $c['id_certificado'] ?>">
-                                    ⬇
+                                <a class="action-btn editar" title="Editar"
+                                href="/Edutech/admin/certificados/edit?id=<?= $c['id_certificado'] ?>">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+
+                                <a class="action-btn eliminar" title="Eliminar"
+                                href="/Edutech/admin/certificados/delete?id=<?= $c['id_certificado'] ?>">
+                                    <i class="fa-solid fa-xmark"></i>
                                 </a>
 
                             </td>
