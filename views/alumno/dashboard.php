@@ -20,11 +20,16 @@ function getBadge(string $nombre): array {
     return ['default', 'Curso', '#f1f5f9', '#475569'];
 }
 
-$nombre      = $_SESSION['user']['nombres'] ?? 'Alumno';
-
-$totalMisCursos = count($misCursos);
+$nombre           = $_SESSION['user']['nombres'] ?? 'Alumno';
+$totalMisCursos   = count($misCursos);
 $totalDisponibles = count($cursosDisponibles);
 ?>
+
+<!-- ======== MODAL IMAGEN ======== -->
+<div class="modal-img" id="modalImg" onclick="cerrarModal()">
+    <span class="cerrar-modal">&times;</span>
+    <img src="" id="modalImgSrc" alt="Vista ampliada" onclick="event.stopPropagation()">
+</div>
 
 <div class="alumno-layout">
 
@@ -106,7 +111,10 @@ $totalDisponibles = count($cursosDisponibles);
 
                     <div class="curso-img-wrap">
                         <?php if ($imagen): ?>
-                            <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($curso['nombre']) ?>">
+                            <img src="<?= $imagen ?>"
+                                 alt="<?= htmlspecialchars($curso['nombre']) ?>"
+                                 onclick="abrirModal('<?= $imagen ?>')"
+                                 title="Clic para ampliar">
                         <?php else: ?>
                             <span class="curso-img-placeholder">🎓</span>
                         <?php endif; ?>
@@ -136,13 +144,10 @@ $totalDisponibles = count($cursosDisponibles);
                     </div>
 
                     <div class="curso-card-footer">
-
                         <span class="curso-nivel-txt nivel-<?= strtolower($curso['nivel']) ?>">
                             <?= $curso['nivel'] ?>
                         </span>
-
                         <a href="#" class="btn-entrar">Ver curso</a>
-
                     </div>
 
                 </div>
@@ -183,7 +188,10 @@ $totalDisponibles = count($cursosDisponibles);
 
                     <div class="curso-img-wrap">
                         <?php if ($imagen): ?>
-                            <img src="<?= $imagen ?>" alt="<?= htmlspecialchars($curso['nombre']) ?>">
+                            <img src="<?= $imagen ?>"
+                                 alt="<?= htmlspecialchars($curso['nombre']) ?>"
+                                 onclick="abrirModal('<?= $imagen ?>')"
+                                 title="Clic para ampliar">
                         <?php else: ?>
                             <span class="curso-img-placeholder">🎓</span>
                         <?php endif; ?>
@@ -202,19 +210,13 @@ $totalDisponibles = count($cursosDisponibles);
                     </div>
 
                     <div class="curso-card-footer">
-
                         <span class="curso-nivel-txt nivel-<?= strtolower($curso['nivel']) ?>">
                             <?= $curso['nivel'] ?>
                         </span>
-
                         <form method="POST" action="/Edutech/alumno/inscribirse">
                             <input type="hidden" name="curso_id" value="<?= $curso['id_curso'] ?>">
-
-                            <button type="submit" class="btn-entrar">
-                                Inscribirme
-                            </button>
+                            <button type="submit" class="btn-entrar">Inscribirme</button>
                         </form>
-
                     </div>
 
                 </div>
@@ -228,3 +230,39 @@ $totalDisponibles = count($cursosDisponibles);
     </main>
 
 </div>
+
+<script>
+// ---- Modal imagen ----
+function abrirModal(src) {
+    document.getElementById('modalImgSrc').src = src;
+    document.getElementById('modalImg').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal() {
+    document.getElementById('modalImg').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') cerrarModal();
+});
+
+// ---- Filtros ----
+function filtrarCursos() {
+    const area  = document.getElementById('filtroArea').value;
+    const nivel = document.getElementById('filtroNivel').value;
+
+    document.querySelectorAll('.curso-card').forEach(card => {
+        const matchArea  = !area  || card.dataset.badge  === area;
+        const matchNivel = !nivel || card.dataset.nivel === nivel;
+        card.style.display = (matchArea && matchNivel) ? '' : 'none';
+    });
+}
+
+function limpiarFiltros() {
+    document.getElementById('filtroArea').value  = '';
+    document.getElementById('filtroNivel').value = '';
+    document.querySelectorAll('.curso-card').forEach(c => c.style.display = '');
+}
+</script>
