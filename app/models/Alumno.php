@@ -25,12 +25,6 @@ class Alumno extends Model
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Trae los cursos en los que el alumno está inscrito.
-     * Progreso en 0 hasta que se implemente la lógica de avance.
-     *
-     * @param int $id_usuario  El id_usuario de la sesión ($_SESSION['user']['id'])
-     */
     public function getCursosInscritos(int $id_usuario): array
     {
         $sql = "
@@ -40,9 +34,15 @@ class Alumno extends Model
                 c.descripcion,
                 c.nivel,
                 c.imagen,
-                0 AS progreso
+                0 AS progreso,
+                i.created_at AS fecha_inscripcion,
+                u.nombres    AS asesor_nombres,
+                u.apellidos  AS asesor_apellidos
             FROM inscripciones i
-            INNER JOIN cursos c ON c.id_curso = i.id_curso
+            INNER JOIN cursos c        ON c.id_curso  = i.id_curso
+            LEFT  JOIN asesor_curso ac ON ac.id_curso = c.id_curso
+            LEFT  JOIN asesores a      ON a.id_asesor = ac.id_asesor
+            LEFT  JOIN usuarios u      ON u.id_usuario = a.id_usuario
             WHERE i.id_usuario = :id_usuario
               AND c.estado = 1
             ORDER BY i.created_at DESC
@@ -74,37 +74,36 @@ class Alumno extends Model
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id_usuario' => $id_usuario]);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function inscribir(int $id_usuario, int $id_curso): bool
     {
-        // evitar duplicados
         $check = $this->db->prepare("
             SELECT id_inscripcion 
             FROM inscripciones 
             WHERE id_usuario = :u AND id_curso = :c
         ");
 
-        $check->execute([
-            ':u' => $id_usuario,
-            ':c' => $id_curso
-        ]);
+        $check->execute([':u' => $id_usuario, ':c' => $id_curso]);
 
-        if ($check->fetch()) {
-            return false;
-        }
+        if ($check->fetch()) return false;
 
-        // insertar inscripción
         $stmt = $this->db->prepare("
             INSERT INTO inscripciones (id_usuario, id_curso, created_at)
             VALUES (:u, :c, NOW())
         ");
 
-        return $stmt->execute([
-            ':u' => $id_usuario,
-            ':c' => $id_curso
-        ]);
+        return $stmt->execute([':u' => $id_usuario, ':c' => $id_curso]);
+    }
+
+    public function anular(int $id_usuario, int $id_curso): bool
+    {
+        $stmt = $this->db->prepare("
+            DELETE FROM inscripciones
+            WHERE id_usuario = :u AND id_curso = :c
+        ");
+
+        return $stmt->execute([':u' => $id_usuario, ':c' => $id_curso]);
     }
 }

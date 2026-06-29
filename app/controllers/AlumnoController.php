@@ -13,24 +13,39 @@ class AlumnoController extends Controller
         AuthMiddleware::check();
         AuthMiddleware::role([3]);
 
-        $id_usuario = (int) ($_SESSION['user']['id'] ?? 0);
-
+        $id_usuario  = (int) ($_SESSION['user']['id'] ?? 0);
         $alumnoModel = new Alumno();
 
-        // MIS CURSOS
         $misCursos = $id_usuario > 0
             ? $alumnoModel->getCursosInscritos($id_usuario)
             : [];
 
-        // CURSOS DISPONIBLES
         $cursosDisponibles = $id_usuario > 0
             ? $alumnoModel->getCursosDisponibles($id_usuario)
             : [];
 
         $this->view('alumno/dashboard', [
-            'module' => 'alumnos',
-            'misCursos' => $misCursos,
+            'module'            => 'alumnos',
+            'misCursos'         => $misCursos,
             'cursosDisponibles' => $cursosDisponibles
+        ], 'layouts/main');
+    }
+
+    public function cursos()
+    {
+        AuthMiddleware::check();
+        AuthMiddleware::role([3]);
+
+        $id_usuario  = (int) ($_SESSION['user']['id'] ?? 0);
+        $alumnoModel = new Alumno();
+
+        $misCursos = $id_usuario > 0
+            ? $alumnoModel->getCursosInscritos($id_usuario)
+            : [];
+
+        $this->view('alumno/cursos', [
+            'module'    => 'mis-cursos',
+            'misCursos' => $misCursos,
         ], 'layouts/main');
     }
 
@@ -40,7 +55,7 @@ class AlumnoController extends Controller
         AuthMiddleware::role([3]);
 
         $id_usuario = (int) ($_SESSION['user']['id'] ?? 0);
-        $curso_id = (int) ($_POST['curso_id'] ?? 0);
+        $curso_id   = (int) ($_POST['curso_id'] ?? 0);
 
         if ($id_usuario <= 0 || $curso_id <= 0) {
             header("Location: /Edutech/alumno");
@@ -48,10 +63,26 @@ class AlumnoController extends Controller
         }
 
         $alumnoModel = new Alumno();
-
-        $ok = $alumnoModel->inscribir($id_usuario, $curso_id);
+        $alumnoModel->inscribir($id_usuario, $curso_id);
 
         header("Location: /Edutech/alumno");
+        exit;
+    }
+
+    public function anular()
+    {
+        AuthMiddleware::check();
+        AuthMiddleware::role([3]);
+
+        $id_usuario = (int) ($_SESSION['user']['id'] ?? 0);
+        $curso_id   = (int) ($_POST['curso_id'] ?? 0);
+
+        if ($id_usuario > 0 && $curso_id > 0) {
+            $alumnoModel = new Alumno();
+            $alumnoModel->anular($id_usuario, $curso_id);
+        }
+
+        header("Location: /Edutech/mis-cursos");
         exit;
     }
 }
