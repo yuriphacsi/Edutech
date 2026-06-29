@@ -486,8 +486,14 @@
 /* ---------- Badge de nivel (sobre la imagen) ---------- */
 .curso-nivel-badge {
     position: absolute;
-    bottom: 8px;
-    left: 8px;
+    top: 10px;
+    left: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 .nivel-basico     { background: #dcfce7; color: #15803d; }
 .nivel-intermedio { background: #fef3c7; color: #b45309; }
@@ -531,9 +537,11 @@
     flex-direction: row;
     max-height: 140px;
 }
-.curso-img-wrap {
-    position: relative;
-    height: 130px;
+.cursos-lista .curso-img-wrap {
+    width: 160px;
+    height: 140px;
+    flex-shrink: 0;
+    border-radius: 0;
 }
 .cursos-lista .curso-card-body {
     padding: 12px 16px;
@@ -548,31 +556,13 @@
     gap: 10px;
 }
 
-.curso-img-wrap img {
-    object-fit: cover;
-    object-position: center center;
-}
-
-
-
-.curso-nivel-txt { 
-    font-size: 11px; 
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-}
-.curso-nivel-txt.nivel-basico     { background: #dcfce7; color: #15803d; }
-.curso-nivel-txt.nivel-intermedio { background: #fef3c7; color: #b45309; }
-.curso-nivel-txt.nivel-avanzado   { background: #fee2e2; color: #b91c1c; }
-
-/* Modal de imagen */
+/* ---------- Modal imagen ---------- */
 .modal-img {
     display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.88);
     z-index: 9999;
     align-items: center;
     justify-content: center;
@@ -583,19 +573,37 @@
 }
 .modal-img img {
     max-width: 90%;
-    max-height: 90vh;
+    max-height: 88vh;
     border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    cursor: default;
+    animation: zoomIn 0.2s ease;
 }
-.modal-img .cerrar {
+@keyframes zoomIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+.cerrar-modal {
     position: absolute;
-    top: 20px; right: 30px;
-    font-size: 36px;
+    top: 16px; right: 24px;
+    font-size: 40px;
     color: #fff;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 300;
     line-height: 1;
+    transition: opacity 0.2s;
 }
-.curso-img-wrap img {
-    cursor: zoom-in;
+.cerrar-modal:hover { opacity: 0.7; }
+.curso-img-wrap img { cursor: zoom-in; }
+
+/* ---------- Nivel pill colores ---------- */
+.curso-nivel-txt {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
 }
+.curso-nivel-txt.nivel-basico     { background: #dcfce7; color: #15803d; }
+.curso-nivel-txt.nivel-intermedio { background: #fef3c7; color: #b45309; }
+.curso-nivel-txt.nivel-avanzado   { background: #fee2e2; color: #b91c1c; }
