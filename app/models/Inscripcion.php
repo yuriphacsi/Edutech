@@ -107,4 +107,24 @@ class Inscripcion extends Model
 
         return $stmt->fetchColumn() > 0;
     }
+
+    public function existsUsuarioCurso($idUsuario, $idCurso): bool
+    {
+        $sql = "
+            SELECT COUNT(*) as total
+            FROM inscripciones
+            WHERE id_usuario = :usuario
+            AND id_curso = :curso
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            'usuario' => $idUsuario,
+            'curso' => $idCurso
+        ]);
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return $result['total'] > 0;
+    }
 }
