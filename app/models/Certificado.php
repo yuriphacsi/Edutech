@@ -54,4 +54,23 @@ class Certificado extends Model
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function exists(int $id_alumno, int $id_curso): bool
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM certificados
+            WHERE id_alumno = :id_alumno
+            AND id_curso = :id_curso
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id_alumno' => $id_alumno,
+            ':id_curso' => $id_curso
+        ]);
+
+        return $stmt->fetchColumn() > 0;
+    }
 }

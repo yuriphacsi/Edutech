@@ -33,7 +33,7 @@
 
                     <?php foreach ($alumnos as $a): ?>
                         <option value="<?= $a['id_alumno'] ?>">
-                            <?= $a['nombres'] ?> <?= $a['apellidos'] ?>
+                            <?= htmlspecialchars($a['nombres']) ?> <?= htmlspecialchars($a['apellidos']) ?>
                         </option>
                     <?php endforeach; ?>
 
@@ -108,33 +108,39 @@ document.addEventListener("DOMContentLoaded", () => {
         curso.innerHTML = "";
 
         if (!id) {
-
             curso.disabled = true;
-
-            curso.innerHTML =
-                '<option>Primero seleccione un alumno</option>';
-
+            curso.innerHTML = '<option>Primero seleccione un alumno</option>';
             return;
         }
 
         fetch(`/Edutech/admin/certificados/cursos?id_alumno=${id}`)
+            .then(r => r.text())
+            .then(text => {
 
-            .then(r => r.json())
+                console.log(text);
 
-            .then(data => {
+                const data = JSON.parse(text);
+
+                console.log(data);
 
                 curso.disabled = false;
+                curso.innerHTML = '<option value="">Seleccione un curso</option>';
 
-                curso.innerHTML =
-                    '<option value="">Seleccione un curso</option>';
+                if (data.length === 0) {
+                    curso.innerHTML = '<option>No hay cursos inscritos</option>';
+                    curso.disabled = true;
+                    return;
+                }
 
                 data.forEach(c => {
 
-                    curso.innerHTML +=
-                        `<option value="${c.id_curso}">
-                            ${c.nombre}
-                        </option>`;
+                    console.log(c);
 
+                    curso.innerHTML += `
+                        <option value="${c.id_curso}">
+                            ${c.nombre}
+                        </option>
+                    `;
                 });
 
             });

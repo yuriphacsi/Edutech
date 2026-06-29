@@ -22,11 +22,11 @@ class CursoController extends Controller
         $cursoModel = new Curso();
 
         $data = [
-            'cursos' => $cursoModel->list(),
+            'cursos' => $cursoModel->listWithAlumnos(),
         ];
 
         $this->view('admin/cursos/index', [
-            'cursos' => $cursoModel->list(),
+            'cursos' => $cursoModel->listWithAlumnos(),
             'module' => 'cursos'
         ], 'layouts/main');
     }
@@ -161,5 +161,22 @@ class CursoController extends Controller
 
         header("Location: /Edutech/admin/cursos");
         exit;
+    }
+
+    public function alumnos()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            die("ID inválido");
+        }
+
+        $curso = new \App\Models\Curso();
+        $alumnos = $curso->getAlumnosByCurso((int)$id);
+
+        $this->view('admin/cursos/alumnos', [
+            'alumnos' => $alumnos,
+            'module' => 'cursos'
+        ], 'layouts/main');
     }
 }
