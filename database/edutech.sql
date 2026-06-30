@@ -276,3 +276,32 @@ BEGIN
 END //
 
 DELIMITER ;
+
+/* =========================
+   📚 MODULO BIBLIOTECA VIRTUAL
+========================= */
+CREATE TABLE libros (
+    id_libro INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    autor VARCHAR(120) NOT NULL,
+    categoria VARCHAR(80) DEFAULT NULL,
+    descripcion TEXT,
+    portada VARCHAR(255) DEFAULT NULL,
+    archivo_pdf VARCHAR(255) DEFAULT NULL,
+    enlace VARCHAR(255) DEFAULT NULL,
+    estado TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO libros (titulo, autor, categoria, descripcion, portada, enlace) VALUES
+('Python para Principiantes', 'John Doe', 'Programacion', 'Introduccion practica a la programacion con Python desde cero.', NULL, '#'),
+('HTML y CSS', 'Jane Smith', 'Desarrollo Web', 'Fundamentos del diseño y estructura de paginas web modernas.', NULL, '#'),
+('Java Basico', 'James Gosling', 'Programacion', 'Conceptos esenciales de programacion orientada a objetos con Java.', NULL, '#'),
+('Bases de Datos', 'C. J. Date', 'Bases de Datos', 'Principios fundamentales del modelado y diseño de bases de datos relacionales.', NULL, '#'),
+('Git y GitHub', 'Scott Chacon', 'Control de Versiones', 'Guia practica para el control de versiones colaborativo con Git y GitHub.', NULL, '#'),
+('JavaScript', 'Douglas Crockford', 'Desarrollo Web', 'Las buenas partes del lenguaje JavaScript explicadas a fondo.', NULL, '#'),
+('Redes de Computadoras', 'Andrew Tanenbaum', 'Redes', 'Conceptos clave sobre arquitectura y protocolos de redes.', NULL, '#'),
+('Linux Esencial', 'Brian Ward', 'Sistemas Operativos', 'Administracion y uso practico del sistema operativo Linux.', NULL, '#'),
+('Algoritmos', 'Robert Sedgewick', 'Algoritmos', 'Analisis y diseño de algoritmos y estructuras de datos fundamentales.', NULL, '#'),
+('Programacion Web', 'Jon Duckett', 'Desarrollo Web', 'Guia visual para construir sitios web con HTML, CSS y JavaScript.', NULL, '#');
