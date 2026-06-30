@@ -65,3 +65,16 @@ $router->get('/admin/certificados/ver', 'CertificadoController@ver');
 $router->get('/admin/certificados/show', 'CertificadoController@show');
 $router->get('/admin/certificados/pdf', 'CertificadoController@pdf');
 $router->get('/admin/certificados/cursos', 'CertificadoController@cursos');
+
+/* =========================
+   📚 BIBLIOTECA VIRTUAL
+   Admin (1): CRUD completo
+   Asesor (2) y Alumno (3): solo lectura
+========================= */
+$router->get('/admin/biblioteca', 'BibliotecaController@index'); // control de rol dentro del controlador
+$router->get('/admin/biblioteca/show', 'BibliotecaController@show'); // control de rol dentro del controlador
+$router->get('/admin/biblioteca/create', 'BibliotecaController@create')->middleware('role:1');
+$router->post('/admin/biblioteca/store', 'BibliotecaController@store')->middleware('role:1');
+$router->get('/admin/biblioteca/edit', 'BibliotecaController@edit')->middleware('role:1');
+$router->post('/admin/biblioteca/update', 'BibliotecaController@update')->middleware('role:1');
+$router->post('/admin/biblioteca/delete', 'BibliotecaController@delete')->middleware('role:1');
