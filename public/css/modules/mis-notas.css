@@ -1,0 +1,396 @@
+/* ============================================================
+   MIS NOTAS — EduTech Alumno
+   ============================================================ */
+
+/* ── Encabezado ── */
+.mn-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 28px 0;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.mn-page-header-left h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 4px;
+}
+
+.mn-page-header-left p {
+    font-size: 14px;
+    color: #8a8fa8;
+    margin: 0;
+}
+
+.mn-stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.mn-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.mn-stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1;
+}
+
+.mn-stat-label {
+    font-size: 11px;
+    color: #8a8fa8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mn-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: #e8eaf0;
+}
+
+/* ── Tabs ── */
+.mn-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 24px 28px 0;
+}
+
+.mn-tab {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+    color: #8a8fa8;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+
+.mn-tab:hover {
+    color: #6c63ff;
+}
+
+.mn-tab.active {
+    background: linear-gradient(135deg, #6c63ff, #a855f7);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(108,99,255,0.3);
+}
+
+.mn-tab-content {
+    padding: 20px 28px 28px;
+}
+
+/* ── Lista de cursos con notas ── */
+.mn-cursos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.mn-curso-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.mn-curso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f0f0f7;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.mn-curso-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.mn-curso-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.mn-curso-thumb-placeholder {
+    background: linear-gradient(135deg, #e0ddff 0%, #c4b5fd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.mn-curso-info h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 4px;
+}
+
+.mn-nivel-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.nivel-basico     { background: #dcfce7; color: #15803d; }
+.nivel-intermedio { background: #fef3c7; color: #b45309; }
+.nivel-avanzado   { background: #fee2e2; color: #b91c1c; }
+
+.mn-curso-promedio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mn-promedio-num {
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.mn-promedio-chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* tabla evaluaciones */
+.mn-evaluaciones {
+    padding: 8px 20px 16px;
+    overflow-x: auto;
+}
+
+.mn-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mn-tabla thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8a8fa8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f7;
+}
+
+.mn-tabla tbody td {
+    padding: 12px;
+    font-size: 13px;
+    color: #3a3a5c;
+    border-bottom: 1px solid #f7f7fb;
+}
+
+.mn-tabla tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.mn-eval-nombre {
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.mn-eval-comentario {
+    margin-left: 6px;
+    color: #a0a4b8;
+    font-size: 11px;
+    cursor: help;
+}
+
+.mn-fecha {
+    color: #8a8fa8;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.mn-nota-cell strong {
+    font-size: 15px;
+    color: #1a1a2e;
+}
+
+.mn-nota-max {
+    font-size: 11px;
+    color: #8a8fa8;
+}
+
+.mn-estado-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* ── Calificaciones de asesorías ── */
+.mn-calif-resumen {
+    text-align: center;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.mn-calif-resumen-num {
+    font-size: 40px;
+    font-weight: 800;
+    color: #1a1a2e;
+}
+
+.mn-calif-resumen-num span {
+    font-size: 18px;
+    color: #8a8fa8;
+    font-weight: 600;
+}
+
+.mn-calif-resumen-stars {
+    color: #f59e0b;
+    font-size: 20px;
+    margin: 8px 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.mn-calif-resumen p {
+    font-size: 13px;
+    color: #8a8fa8;
+    margin: 0;
+}
+
+.mn-calif-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.mn-calif-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.mn-calif-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.mn-calif-card-top h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 4px;
+}
+
+.mn-calif-curso {
+    font-size: 12px;
+    color: #6c63ff;
+    font-weight: 600;
+}
+
+.mn-calif-stars-sm {
+    color: #f59e0b;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.mn-calif-num {
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3a3a5c;
+}
+
+.mn-calif-comentario {
+    font-size: 13px;
+    color: #6b7280;
+    font-style: italic;
+    margin: 12px 0 8px;
+    line-height: 1.5;
+}
+
+.mn-calif-fecha {
+    font-size: 11px;
+    color: #a0a4b8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ── Vacío ── */
+.mn-vacio {
+    text-align: center;
+    padding: 70px 20px;
+    color: #8a8fa8;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.mn-vacio-icon {
+    font-size: 56px;
+    margin-bottom: 14px;
+}
+
+.mn-vacio h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3a3a5c;
+    margin: 0 0 6px;
+}
+
+.mn-vacio p {
+    font-size: 13px;
+    margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .mn-page-header { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+    .mn-page-header { padding: 20px 16px 0; }
+    .mn-tabs { padding: 20px 16px 0; flex-wrap: wrap; }
+    .mn-tab-content { padding: 16px; }
+    .mn-curso-header { flex-direction: column; align-items: flex-start; }
+    .mn-tabla { font-size: 12px; }
+}

@@ -64,7 +64,6 @@ class AlumnoController extends Controller
 
         $inscripcion = new \App\Models\Inscripcion();
 
-        // evitar duplicados
         if ($inscripcion->existsUsuarioCurso($id_usuario, $curso_id)) {
             header("Location: /Edutech/alumno");
             exit;
@@ -91,5 +90,59 @@ class AlumnoController extends Controller
 
         header("Location: /Edutech/mis-cursos");
         exit;
+    }
+
+    public function notas()
+    {
+        AuthMiddleware::check();
+        AuthMiddleware::role([3]);
+
+        $id_usuario  = (int) ($_SESSION['user']['id'] ?? 0);
+        $alumnoModel = new Alumno();
+
+        $notasPorCurso = $id_usuario > 0
+            ? $alumnoModel->getNotasPorCurso($id_usuario)
+            : [];
+
+        $id_alumno = $id_usuario > 0
+            ? $alumnoModel->getIdAlumnoPorUsuario($id_usuario)
+            : null;
+
+        $calificacionesAsesorias = $id_alumno
+            ? $alumnoModel->getCalificacionesAsesorias($id_alumno)
+            : [];
+
+        $this->view('alumno/notas', [
+            'module'                  => 'mis-notas',
+            'notasPorCurso'           => $notasPorCurso,
+            'calificacionesAsesorias' => $calificacionesAsesorias,
+        ], 'layouts/main');
+    }
+
+    public function asistencia()
+    {
+        AuthMiddleware::check();
+        AuthMiddleware::role([3]);
+
+        $id_usuario  = (int) ($_SESSION['user']['id'] ?? 0);
+        $alumnoModel = new Alumno();
+
+        $id_alumno = $id_usuario > 0
+            ? $alumnoModel->getIdAlumnoPorUsuario($id_usuario)
+            : null;
+
+        $asistencias = $id_alumno
+            ? $alumnoModel->getAsistenciaPorCurso($id_alumno)
+            : [];
+
+        $resumen = $id_alumno
+            ? $alumnoModel->getResumenAsistencia($id_alumno)
+            : ['total' => 0, 'asistio' => 0, 'programada' => 0, 'falta' => 0, 'cancelada' => 0, 'porcentaje' => 0];
+
+        $this->view('alumno/asistencia', [
+            'module'      => 'mis-asistencia',
+            'asistencias' => $asistencias,
+            'resumen'     => $resumen,
+        ], 'layouts/main');
     }
 }

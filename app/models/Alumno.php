@@ -121,4 +121,125 @@ class Alumno extends Model
 
         return $stmt->fetchColumn() ?: null;
     }
+
+    public function getIdAlumnoPorUsuario(int $id_usuario): ?int
+    {
+        $stmt = $this->db->prepare("SELECT id_alumno FROM alumnos WHERE id_usuario = :u");
+        $stmt->execute([':u' => $id_usuario]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? (int)$row['id_alumno'] : null;
+    }
+
+    public function getNotasPorCurso(int $id_usuario): array
+    {
+        $sql = "
+            SELECT
+                n.id_nota,
+                n.id_curso,
+                c.nombre AS curso_nombre,
+                c.nivel,
+                c.imagen,
+                n.tipo_evaluacion,
+                n.nota,
+                n.nota_maxima,
+                n.comentario,
+                n.fecha_evaluacion
+            FROM notas n
+            INNER JOIN cursos c ON c.id_curso = n.id_curso
+            WHERE n.id_usuario = :id_usuario
+            ORDER BY c.nombre ASC, n.fecha_evaluacion ASC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id_usuario' => $id_usuario]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCalificacionesAsesorias(int $id_alumno): array
+    {
+        $sql = "
+            SELECT
+                cal.id_calificacion,
+                cal.puntuacion,
+                cal.comentario,
+                cal.created_at,
+                c.nombre AS curso_nombre,
+                u.nombres   AS asesor_nombres,
+                u.apellidos AS asesor_apellidos,
+                ase.fecha AS fecha_asesoria
+            FROM calificaciones cal
+            INNER JOIN asesorias ase ON ase.id_asesoria = cal.id_asesoria
+            INNER JOIN cursos c      ON c.id_curso = ase.id_curso
+            INNER JOIN asesores a    ON a.id_asesor = cal.id_asesor
+            INNER JOIN usuarios u    ON u.id_usuario = a.id_usuario
+            WHERE cal.id_alumno = :id_alumno
+            ORDER BY cal.created_at DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id_alumno' => $id_alumno]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAsistenciaPorCurso(int $id_alumno): array
+    {
+        $sql = "
+            SELECT
+                ase.id_asesoria,
+                ase.id_curso,
+                c.nombre   AS curso_nombre,
+                c.nivel,
+                c.imagen,
+                ase.fecha,
+                ase.hora_inicio,
+                ase.hora_fin,
+                ase.estado,
+                u.nombres   AS asesor_nombres,
+                u.apellidos AS asesor_apellidos
+            FROM asesorias ase
+            INNER JOIN cursos c    ON c.id_curso  = ase.id_curso
+            INNER JOIN asesores a  ON a.id_asesor = ase.id_asesor
+            INNER JOIN usuarios u  ON u.id_usuario = a.id_usuario
+            WHERE ase.id_alumno = :id_alumno
+            ORDER BY ase.fecha DESC, ase.hora_inicio DESC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':id_alumno' => $id_alumno]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getResumenAsistencia(int $id_alumno): array
+    {
+        $registros = $this->getAsistenciaPorCurso($id_alumno);
+
+        $resumen = [
+            'total'      => count($registros),
+            'asistio'    => 0,
+            'programada' => 0,
+            'falta'      => 0,
+            'cancelada'  => 0,
+        ];
+
+        $hoy = date('Y-m-d');
+
+        foreach ($registros as $r) {
+            if ($r['estado'] === 'Finalizada') {
+                $resumen['asistio']++;
+            } elseif ($r['estado'] === 'Cancelada') {
+                $resumen['cancelada']++;
+            } elseif ($r['estado'] === 'Pendiente' && $r['fecha'] < $hoy) {
+                $resumen['falta']++;
+            } else {
+                $resumen['programada']++;
+            }
+        }
+
+        $base = $resumen['asistio'] + $resumen['falta'];
+        $resumen['porcentaje'] = $base > 0
+            ? round(($resumen['asistio'] / $base) * 100)
+            : 0;
+
+        return $resumen;
+    }
 }

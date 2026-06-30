@@ -23,6 +23,8 @@ $router->get('/alumno', 'AlumnoController@index')->middleware('role:3');
    🎓 ALUMNO
 ========================= */
 $router->get('/mis-cursos', 'AlumnoController@cursos')->middleware('role:3');
+$router->get('/mis-notas', 'AlumnoController@notas')->middleware('role:3');
+$router->get('/mis-asistencia', 'AlumnoController@asistencia')->middleware('role:3');
 $router->post('/alumno/inscribirse', 'AlumnoController@inscribirse')->middleware('role:3');
 $router->post('/alumno/anular', 'AlumnoController@anular')->middleware('role:3');
 

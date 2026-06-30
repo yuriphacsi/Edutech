@@ -185,16 +185,16 @@ $nombreUsuario =
                 SEGUIMIENTO
             </div>
 
-            <a href="#"
+            <a href="/Edutech/mis-notas"
                 data-tooltip="Notas"
-                class="">
+                class="<?= str_contains($current, '/mis-notas') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-column"></i>
                 <span class="menu-text">Mis Notas</span>
             </a>
 
-            <a href="#"
+            <a href="/Edutech/mis-asistencia"
                 data-tooltip="Asistencia"
-                class="">
+                class="<?= str_contains($current, '/mis-asistencia') ? 'active' : '' ?>">
                 <i class="fa-solid fa-user-check"></i>
                 <span class="menu-text">Mi Asistencia</span>
             </a>
