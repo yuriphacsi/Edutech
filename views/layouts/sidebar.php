@@ -1,8 +1,7 @@
 <?php
 $current = $_SERVER['REQUEST_URI'];
 
-// Verificación flexible para asegurar que capture el rol correctamente
-$rol = $_SESSION['user']['rol'] ?? $_SESSION['user']['role_id'] ?? $_SESSION['user']['id_rol'] ?? 0;
+$rol = $_SESSION['user']['rol'] ?? 0;
 
 $nombreUsuario =
     ($_SESSION['user']['nombres'] ?? '') . ' ' .
@@ -29,7 +28,7 @@ $nombreUsuario =
 
             <a href="/Edutech/admin"
                 data-tooltip="Dashboard"
-                class="<?= str_contains($current, '/admin') && !str_contains($current, '/usuarios') && !str_contains($current, '/cursos') && !str_contains($current, '/certificados') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/admin') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -56,14 +55,14 @@ $nombreUsuario =
                 SERVICIOS
             </div>
 
-            <a href="/Edutech/alumno/pagos"
+            <a href="#"
                 data-tooltip="Edupay"
-                class="<?= str_contains($current, '/pagos') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/edupay') ? 'active' : '' ?>">
                 <i class="fa-solid fa-building-columns"></i>
                 <span class="menu-text">EduPay</span>
             </a>
 
-            <a href="#"
+            <a href="/Edutech/admin/biblioteca"
                 data-tooltip="Biblioteca"
                 class="<?= str_contains($current, '/biblioteca') ? 'active' : '' ?>">
                 <i class="fa-solid fa-book-open"></i>
@@ -76,7 +75,7 @@ $nombreUsuario =
 
             <a href="/Edutech/admin/certificados"
                 data-tooltip="Certificados"
-                class="<?= isset($module) && $module == 'certificados' ? 'active' : '' ?>">
+                class="<?= $module == 'certificados' ? 'active' : '' ?>">
 
                 <i class="fa-solid fa-graduation-cap"></i>
 
@@ -131,6 +130,13 @@ $nombreUsuario =
                 <span class="menu-text">Notas</span>
             </a>
 
+            <a href="/Edutech/admin/biblioteca"
+                data-tooltip="Biblioteca"
+                class="<?= str_contains($current, '/biblioteca') ? 'active' : '' ?>">
+                <i class="fa-solid fa-book-open"></i>
+                <span class="menu-text">Biblioteca</span>
+            </a>
+
             <div class="menu-section" data-tooltip="Análisis">
                 ANÁLISIS
             </div>
@@ -152,7 +158,7 @@ $nombreUsuario =
 
             <a href="/Edutech/alumno"
                 data-tooltip="Dashboard"
-                class="<?= str_contains($current, '/alumno') && !str_contains($current, '/pagos') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/alumno') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -168,9 +174,9 @@ $nombreUsuario =
                 <span class="menu-text">Mis Cursos</span>
             </a>
 
-            <a href="/Edutech/alumno/pagos"
+            <a href="#"
                 data-tooltip="Pagos"
-                class="<?= str_contains($current, '/pagos') ? 'active' : '' ?>">
+                class="">
                 <i class="fa-solid fa-credit-card"></i>
                 <span class="menu-text">Mis Pagos</span>
             </a>
@@ -186,7 +192,7 @@ $nombreUsuario =
                 SEGUIMIENTO
             </div>
 
-            <a href="/Edutech/mis-notes"
+            <a href="/Edutech/mis-notas"
                 data-tooltip="Notas"
                 class="<?= str_contains($current, '/mis-notas') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-column"></i>
@@ -200,9 +206,9 @@ $nombreUsuario =
                 <span class="menu-text">Mi Asistencia</span>
             </a>
 
-            <a href="#"
+            <a href="/Edutech/admin/biblioteca"
                 data-tooltip="Biblioteca"
-                class="">
+                class="<?= str_contains($current, '/biblioteca') ? 'active' : '' ?>">
                 <i class="fa-solid fa-book-open"></i>
                 <span class="menu-text">Biblioteca</span>
             </a>
