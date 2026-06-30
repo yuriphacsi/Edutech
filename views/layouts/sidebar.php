@@ -1,7 +1,8 @@
 <?php
 $current = $_SERVER['REQUEST_URI'];
 
-$rol = $_SESSION['user']['rol'] ?? 0;
+// Verificación flexible para asegurar que capture el rol correctamente
+$rol = $_SESSION['user']['rol'] ?? $_SESSION['user']['role_id'] ?? $_SESSION['user']['id_rol'] ?? 0;
 
 $nombreUsuario =
     ($_SESSION['user']['nombres'] ?? '') . ' ' .
@@ -28,7 +29,7 @@ $nombreUsuario =
 
             <a href="/Edutech/admin"
                 data-tooltip="Dashboard"
-                class="<?= str_contains($current, '/admin') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/admin') && !str_contains($current, '/usuarios') && !str_contains($current, '/cursos') && !str_contains($current, '/certificados') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -55,9 +56,9 @@ $nombreUsuario =
                 SERVICIOS
             </div>
 
-            <a href="#"
+            <a href="/Edutech/alumno/pagos"
                 data-tooltip="Edupay"
-                class="<?= str_contains($current, '/edupay') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/pagos') ? 'active' : '' ?>">
                 <i class="fa-solid fa-building-columns"></i>
                 <span class="menu-text">EduPay</span>
             </a>
@@ -75,7 +76,7 @@ $nombreUsuario =
 
             <a href="/Edutech/admin/certificados"
                 data-tooltip="Certificados"
-                class="<?= $module == 'certificados' ? 'active' : '' ?>">
+                class="<?= isset($module) && $module == 'certificados' ? 'active' : '' ?>">
 
                 <i class="fa-solid fa-graduation-cap"></i>
 
@@ -151,7 +152,7 @@ $nombreUsuario =
 
             <a href="/Edutech/alumno"
                 data-tooltip="Dashboard"
-                class="<?= str_contains($current, '/alumno') ? 'active' : '' ?>">
+                class="<?= str_contains($current, '/alumno') && !str_contains($current, '/pagos') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-line"></i>
                 <span class="menu-text">Dashboard</span>
             </a>
@@ -167,9 +168,9 @@ $nombreUsuario =
                 <span class="menu-text">Mis Cursos</span>
             </a>
 
-            <a href="#"
+            <a href="/Edutech/alumno/pagos"
                 data-tooltip="Pagos"
-                class="">
+                class="<?= str_contains($current, '/pagos') ? 'active' : '' ?>">
                 <i class="fa-solid fa-credit-card"></i>
                 <span class="menu-text">Mis Pagos</span>
             </a>
@@ -185,7 +186,7 @@ $nombreUsuario =
                 SEGUIMIENTO
             </div>
 
-            <a href="/Edutech/mis-notas"
+            <a href="/Edutech/mis-notes"
                 data-tooltip="Notas"
                 class="<?= str_contains($current, '/mis-notas') ? 'active' : '' ?>">
                 <i class="fa-solid fa-chart-column"></i>
