@@ -147,7 +147,7 @@ class BibliotecaController extends Controller
         AuthMiddleware::role([1]);
         Session::start();
 
-        $id = $_POST['id_libro'] ?? null;
+        $id = $_POST['id_biblioteca'] ?? null;
 
         if (!$id) {
             die("ID inválido");

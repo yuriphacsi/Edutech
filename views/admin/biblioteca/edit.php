@@ -11,7 +11,7 @@
               enctype="multipart/form-data"
               class="form-grid">
 
-            <input type="hidden" name="id_libro" value="<?= $libro['id_libro'] ?>">
+            <input type="hidden" name="id_biblioteca" value="<?= $libro['id_biblioteca'] ?>">
 
             <div class="form-group">
                 <label>Titulo</label>
